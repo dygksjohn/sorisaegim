@@ -13,7 +13,10 @@ const state = {
   chunks: [],
   timerId: null,
   startedAt: 0,
+  lastBlob: null, // 업로드 실패 시 재시도용
 };
+
+const MIN_BLOB_BYTES = 2000; // 이보다 작으면 사실상 빈 녹음 (실측: 빈 webm ≈ 1KB)
 
 const COMPONENT_KO = {
   choseong: "초성",
@@ -38,6 +41,7 @@ function showPractice() {
   $("sentence-text").textContent = s.text;
   $("sentence-pron").textContent = s.pron;
   $("status").textContent = "";
+  $("btn-retry-upload").hidden = true;
   $("result-view").hidden = true;
   $("practice-view").hidden = false;
 }
@@ -99,7 +103,12 @@ $("btn-record").addEventListener("click", async () => {
   state.recorder.ondataavailable = (e) => e.data.size && state.chunks.push(e.data);
   state.recorder.onstop = () => {
     stream.getTracks().forEach((t) => t.stop());
-    upload(new Blob(state.chunks, { type: state.recorder.mimeType }));
+    const blob = new Blob(state.chunks, { type: state.recorder.mimeType });
+    if (blob.size < MIN_BLOB_BYTES) {
+      $("status").textContent = "녹음이 되지 않았습니다. 마이크를 확인하고 다시 시도해 주세요.";
+      return;
+    }
+    upload(blob);
   };
   state.recorder.start();
 
@@ -132,8 +141,10 @@ $("btn-stop").addEventListener("click", stopRecording);
 // ---------- 업로드 & 채점 ----------
 
 async function upload(blob) {
+  state.lastBlob = blob;
   $("loading").hidden = false;
   $("btn-record").disabled = true;
+  $("btn-retry-upload").hidden = true;
 
   const form = new FormData();
   form.append("sentence_id", currentSentence().id);
@@ -143,17 +154,25 @@ async function upload(blob) {
     const res = await fetch("/attempts", { method: "POST", body: form });
     const body = await res.json();
     if (!res.ok) {
+      // 서버 판정 오류(무음·짧음 등)는 재녹음이 답 — 재시도 버튼은 안 띄운다
       $("status").textContent = body.message || body.error || "요청이 실패했습니다.";
       return;
     }
+    state.lastBlob = null;
     showResult(body);
   } catch (e) {
-    $("status").textContent = "업로드에 실패했습니다. 네트워크를 확인하고 다시 시도해 주세요.";
+    // 네트워크 실패는 같은 녹음으로 재시도 가능
+    $("status").textContent = "업로드에 실패했습니다. 네트워크를 확인해 주세요.";
+    $("btn-retry-upload").hidden = false;
   } finally {
     $("loading").hidden = true;
     $("btn-record").disabled = false;
   }
 }
+
+$("btn-retry-upload").addEventListener("click", () => {
+  if (state.lastBlob) upload(state.lastBlob);
+});
 
 // ---------- 결과 화면 ----------
 
@@ -214,6 +233,7 @@ function showResult(body) {
   const scoreEl = $("score");
   scoreEl.textContent = a.score;
   scoreEl.className = `score ${scoreClass(a.score)}`;
+  $("ref-text").textContent = a.reference;
   renderHighlight(a.reference_pron, a.errors);
   $("recognized").textContent = body.stt.text;
   renderErrorList(a.errors);

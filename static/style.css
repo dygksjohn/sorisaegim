@@ -82,6 +82,8 @@ main { width: 100%; max-width: 560px; }
 .score-label { font-size: 1.2rem; color: #6b7280; }
 
 .section-label { color: #9ca3af; font-size: 0.82rem; margin: 18px 0 6px; }
+.ref-text { text-align: center; color: #6b7280; margin-bottom: 4px; }
+.ref-text::before { content: "원문: "; color: #9ca3af; font-size: 0.85em; }
 
 .highlight-line { font-size: 1.45rem; }
 .syl { padding: 1px 1px; border-radius: 4px; }

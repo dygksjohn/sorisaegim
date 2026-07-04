@@ -24,6 +24,9 @@ from .db import TTS_CACHE_DIR, UPLOADS_DIR, get_conn, init_db
 
 KST = timezone(timedelta(hours=9))
 MIN_AUDIO_SEC = 1.0
+# 무음 판정 임계값 (float32 진폭). 실측: 게임바 충돌 시 무음 녹음이 -84dB(≈0.00006),
+# 정상 발화는 통상 0.05 이상 — 0.005면 확실히 가른다.
+SILENCE_PEAK_THRESHOLD = 0.005
 
 
 @asynccontextmanager
@@ -108,6 +111,11 @@ async def create_attempt(sentence_id: int = Form(...), audio: UploadFile = File(
         return error_response(400, "audio_decode_failed", "오디오 형식을 해석할 수 없습니다")
     if len(samples) / SAMPLE_RATE < MIN_AUDIO_SEC:
         return error_response(400, "audio_too_short", "1초 이상 녹음해 주세요")
+    if float(abs(samples).max()) < SILENCE_PEAK_THRESHOLD:
+        return error_response(
+            400, "audio_silent",
+            "소리가 녹음되지 않았습니다. 마이크 연결과 입력 장치 설정을 확인해 주세요",
+        )
 
     stt_result = stt.transcribe(samples)
     if not stt_result["text"]:
