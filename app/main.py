@@ -92,7 +92,13 @@ async def sentence_audio(sentence_id: int):
 
 
 @app.post("/attempts")
-async def create_attempt(sentence_id: int = Form(...), audio: UploadFile = File(...)):
+async def create_attempt(
+    sentence_id: int = Form(...),
+    audio: UploadFile = File(...),
+    source: str = Form("user"),  # user(브라우저 실사용) | synth(합성 증강 스크립트)
+):
+    if source not in ("user", "synth"):
+        return error_response(400, "invalid_source")
     sentence = _get_sentence(sentence_id)
     if sentence is None:
         return error_response(404, "sentence_not_found")
@@ -128,7 +134,7 @@ async def create_attempt(sentence_id: int = Form(...), audio: UploadFile = File(
     try:
         cur = conn.execute(
             "INSERT INTO attempts (sentence_id, audio_path, stt_engine, stt_text,"
-            " score, errors_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            " score, errors_json, created_at, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sentence_id,
                 str(audio_path),
@@ -137,6 +143,7 @@ async def create_attempt(sentence_id: int = Form(...), audio: UploadFile = File(
                 analysis["score"],
                 json.dumps(analysis["errors"], ensure_ascii=False),
                 created_at,
+                source,
             ),
         )
         conn.commit()
@@ -151,6 +158,90 @@ async def create_attempt(sentence_id: int = Form(...), audio: UploadFile = File(
         "analysis": analysis,
         "created_at": created_at,
     }
+
+
+# ---------- 통계 (6주차) ----------
+
+def _source_clause(source: str) -> tuple[str, list]:
+    """통계 필터. 기본 user — 합성 증강(synth)이 학습 기록을 오염시키지 않게 한다."""
+    if source == "all":
+        return "1=1", []
+    return "a.source = ?", [source if source in ("user", "synth") else "user"]
+
+
+@app.get("/stats/summary")
+def stats_summary(source: str = "user"):
+    """전체 요약 + 유형별 평균 + 점수 추이 (기록 화면용)."""
+    clause, params = _source_clause(source)
+    conn = get_conn()
+    try:
+        overall = conn.execute(
+            f"SELECT COUNT(*) AS n, ROUND(AVG(score), 1) AS avg_score"
+            f" FROM attempts a WHERE {clause}", params
+        ).fetchone()
+        by_type = conn.execute(
+            f"SELECT s.type, COUNT(*) AS n, ROUND(AVG(a.score), 1) AS avg_score"
+            f" FROM attempts a JOIN sentences s ON s.id = a.sentence_id"
+            f" WHERE {clause} GROUP BY s.type ORDER BY avg_score", params
+        ).fetchall()
+        trend = conn.execute(
+            f"SELECT id, score, created_at FROM attempts a WHERE {clause} ORDER BY id",
+            params,
+        ).fetchall()
+    finally:
+        conn.close()
+    return {
+        "total": overall["n"],
+        "avg_score": overall["avg_score"],
+        "by_type": [dict(r) for r in by_type],
+        "trend": [dict(r) for r in trend],
+    }
+
+
+@app.get("/stats/weak-jamo")
+def stats_weak_jamo(top: int = 5, source: str = "user"):
+    """자주 틀리는 자모 TOP N — attempts.errors_json 집계.
+
+    7주차 ML(취약 발음 예측)의 규칙 기반 대조군이 되는 집계다.
+    """
+    from collections import Counter
+
+    clause, params = _source_clause(source)
+    conn = get_conn()
+    try:
+        rows = conn.execute(
+            f"SELECT errors_json FROM attempts a WHERE {clause}", params
+        ).fetchall()
+    finally:
+        conn.close()
+
+    counter: Counter = Counter()
+    for r in rows:
+        for e in json.loads(r["errors_json"]):
+            counter[(e["type"], e["component"], e["expected"], e["actual"])] += 1
+
+    items = [
+        {"error_type": t, "component": c, "expected": ex, "actual": ac, "count": n}
+        for (t, c, ex, ac), n in counter.most_common(top)
+    ]
+    return {"weak_jamo": items, "total_errors": sum(counter.values())}
+
+
+@app.get("/stats/attempts")
+def stats_attempts(limit: int = 20, source: str = "user"):
+    """최근 시도 목록 (기록 화면 테이블용)."""
+    clause, params = _source_clause(source)
+    conn = get_conn()
+    try:
+        rows = conn.execute(
+            f"SELECT a.id, a.score, a.stt_text, a.created_at, s.text, s.type"
+            f" FROM attempts a JOIN sentences s ON s.id = a.sentence_id"
+            f" WHERE {clause} ORDER BY a.id DESC LIMIT ?",
+            params + [max(1, min(limit, 200))],
+        ).fetchall()
+    finally:
+        conn.close()
+    return {"attempts": [dict(r) for r in rows]}
 
 
 # 프론트 (4주차) — API 라우트가 먼저 매칭되고, 나머지 경로는 static/ 에서 서빙

@@ -1,0 +1,199 @@
+﻿attempt_id,sentence_id,voice,original_text,spoken_text,kind,component,from,to,position,score,stt_text
+99,1,ko-KR-SunHiNeural,국물이 정말 시원하다,국물이 정말 시원하다,normal,,,,,100,국물이 정말 시원하다.
+100,1,ko-KR-SunHiNeural,국물이 정말 시원하다,국물이 종말 시원하다,perturbed,jungseong,ㅓ,ㅗ,4,100,국물이 정말 시원하다.
+101,1,ko-KR-SunHiNeural,국물이 정말 시원하다,국믈이 정말 시원하다,perturbed,jungseong,ㅜ,ㅡ,1,100,국물이 정말 시원하다.
+102,2,ko-KR-SunHiNeural,밥을 먹었다,밥을 먹었다,normal,,,,,100,밥을 먹었다
+103,2,ko-KR-SunHiNeural,밥을 먹었다,밥을 먹덨다,perturbed,choseong,ㅇ,ㄷ,4,73,밥을 먹던다
+104,2,ko-KR-SunHiNeural,밥을 먹었다,븝을 먹었다,perturbed,jungseong,ㅏ,ㅡ,0,80,그불 먹었다
+105,3,ko-KR-SunHiNeural,신라면이 맵다,신라면이 맵다,normal,,,,,100,신라면이 맵다.
+106,3,ko-KR-SunHiNeural,신라면이 맵다,신라몀이 맵다,perturbed,jongseong,ㄴ,ㅁ,2,100,신라면이 맵다.
+107,3,ko-KR-SunHiNeural,신라면이 맵다,신라면이 맵타,perturbed,choseong,ㄷ,ㅌ,6,100,신라면이 맵다.
+108,4,ko-KR-SunHiNeural,좋다고 말했다,좋다고 말했다,normal,,,,,100,좋다고 말했다.
+109,4,ko-KR-SunHiNeural,좋다고 말했다,좋다구 말했다,perturbed,jungseong,ㅗ,ㅜ,2,100,좋다고 말했다.
+110,4,ko-KR-SunHiNeural,좋다고 말했다,좋다고 말했더,perturbed,jungseong,ㅏ,ㅓ,6,100,좋다고 말했다.
+111,5,ko-KR-SunHiNeural,학교에 갔다,학교에 갔다,normal,,,,,100,학교에 갔다
+112,5,ko-KR-SunHiNeural,학교에 갔다,힉교에 갔다,perturbed,jungseong,ㅏ,ㅣ,0,87,식교에 갔다
+113,5,ko-KR-SunHiNeural,학교에 갔다,학교에 겄다,perturbed,jungseong,ㅏ,ㅓ,4,93,학교에 걷다
+114,6,ko-KR-SunHiNeural,옷이 예쁘다,옷이 예쁘다,normal,,,,,100,옷이 예쁘다.
+115,6,ko-KR-SunHiNeural,옷이 예쁘다,옷이 예뿌다,perturbed,jungseong,ㅡ,ㅜ,4,100,옷이 예쁘다.
+116,6,ko-KR-SunHiNeural,옷이 예쁘다,온이 예쁘다,perturbed,jongseong,ㅅ,ㄴ,0,93,오니 예쁘다
+117,7,ko-KR-SunHiNeural,어머니가 오셨다,어머니가 오셨다,normal,,,,,100,어머니가 오셨다.
+118,7,ko-KR-SunHiNeural,어머니가 오셨다,어머니가 소셨다,perturbed,choseong,ㅇ,ㅅ,5,95,어머니가 소셨다.
+119,7,ko-KR-SunHiNeural,어머니가 오셨다,어머니카 오셨다,perturbed,choseong,ㄱ,ㅋ,3,100,어머니가 오셨다.
+120,8,ko-KR-SunHiNeural,라디오를 켰다,라디오를 켰다,normal,,,,,100,라디오를 켰다.
+121,8,ko-KR-SunHiNeural,라디오를 켰다,라디도를 켰다,perturbed,choseong,ㅇ,ㄷ,2,94,라디도를 켰다.
+122,8,ko-KR-SunHiNeural,라디오를 켰다,루디오를 켰다,perturbed,jungseong,ㅏ,ㅜ,0,94,로디오를 켰다.
+123,9,ko-KR-SunHiNeural,읽고 다시 말했다,읽고 다시 말했다,normal,,,,,100,읽고 다시 말했다.
+124,9,ko-KR-SunHiNeural,읽고 다시 말했다,읅고 다시 말했다,perturbed,jungseong,ㅣ,ㅡ,0,86,물고 다시 말했다.
+125,9,ko-KR-SunHiNeural,읽고 다시 말했다,읽고 다시 말헸다,perturbed,jungseong,ㅐ,ㅔ,7,100,읽고 다시 말했다.
+126,10,ko-KR-SunHiNeural,같이 갑시다,같이 갑시다,normal,,,,,100,같이 갑시다.
+127,10,ko-KR-SunHiNeural,같이 갑시다,같이 갑씨다,perturbed,choseong,ㅅ,ㅆ,4,100,같이 갑시다.
+128,10,ko-KR-SunHiNeural,같이 갑시다,같으 갑시다,perturbed,jungseong,ㅣ,ㅡ,1,87,가트 갑시다
+129,11,ko-KR-SunHiNeural,웃음이 절로 나온다,웃음이 절로 나온다,normal,,,,,100,웃음이 절로 나온다.
+130,11,ko-KR-SunHiNeural,웃음이 절로 나온다,웃음이 졸로 나온다,perturbed,jungseong,ㅓ,ㅗ,4,96,웃음이 졸로 나온다.
+131,11,ko-KR-SunHiNeural,웃음이 절로 나온다,웃음이 절로 나운다,perturbed,jungseong,ㅗ,ㅜ,8,100,웃음이 절로 나온다.
+132,12,ko-KR-SunHiNeural,구름이 하늘에 떠 있다,구름이 하늘에 떠 있다,normal,,,,,100,구름이 하늘에 떠있다.
+133,12,ko-KR-SunHiNeural,구름이 하늘에 떠 있다,구룸이 하늘에 떠 있다,perturbed,jungseong,ㅡ,ㅜ,1,100,구름이 하늘에 떠있다
+134,12,ko-KR-SunHiNeural,구름이 하늘에 떠 있다,구름이 하늘애 떠 있다,perturbed,jungseong,ㅔ,ㅐ,6,100,구름이 하늘에 떠있다.
+135,13,ko-KR-SunHiNeural,꽃이 활짝 피었다,꽃이 활짝 피었다,normal,,,,,100,꽃이 활짝 피었다.
+136,13,ko-KR-SunHiNeural,꽃이 활짝 피었다,꼭이 활짝 피었다,perturbed,jongseong,ㅊ,ㄱ,0,90,고기 활짝 피었다.
+137,13,ko-KR-SunHiNeural,꽃이 활짝 피었다,꽃이 활짝 피옸다,perturbed,jungseong,ㅓ,ㅗ,7,95,꽃이 활짝 피웠다.
+138,14,ko-KR-SunHiNeural,얼음이 녹아 물이 되었다,얼음이 녹아 물이 되었다,normal,,,,,97,얼음이 녹아 불이 되었다
+139,14,ko-KR-SunHiNeural,얼음이 녹아 물이 되었다,얼음지 녹아 물이 되었다,perturbed,choseong,ㅇ,ㅈ,2,93,얼음지 녹아 물이 되었다
+140,14,ko-KR-SunHiNeural,얼음이 녹아 물이 되었다,얼즘이 녹아 물이 되었다,perturbed,choseong,ㅇ,ㅈ,1,90,얼찜이 녹아 물이 되었다.
+141,15,ko-KR-SunHiNeural,숙제를 먼저 끝냈다,숙제를 먼저 끝냈다,normal,,,,,92,숙제를 먼저 끝낸다.
+142,15,ko-KR-SunHiNeural,숙제를 먼저 끝냈다,숙제를 먼저 끝냈두,perturbed,jungseong,ㅏ,ㅜ,9,96,숙제를 먼저 끝났다.
+143,15,ko-KR-SunHiNeural,숙제를 먼저 끝냈다,숙제를 먼저 끝냈나,perturbed,choseong,ㄷ,ㄴ,9,81,숙제를 먼저 끝내는다.
+144,16,ko-KR-SunHiNeural,책상 위에 책이 있다,책상 위에 책이 있다,normal,,,,,100,책상 위에 책이 있다
+145,16,ko-KR-SunHiNeural,책상 위에 책이 있다,챙상 위에 책이 있다,perturbed,jongseong,ㄱ,ㅇ,0,100,책상 위에 책이 있다
+146,16,ko-KR-SunHiNeural,책상 위에 책이 있다,책상 위에 책으 있다,perturbed,jungseong,ㅣ,ㅡ,7,92,책상 위에 책을 있다.
+147,17,ko-KR-SunHiNeural,국밥이 뜨겁다,국밥이 뜨겁다,normal,,,,,100,국밥이 뜨겁다.
+148,17,ko-KR-SunHiNeural,국밥이 뜨겁다,국븝이 뜨겁다,perturbed,jungseong,ㅏ,ㅡ,1,94,국부비 뜨겁다
+149,17,ko-KR-SunHiNeural,국밥이 뜨겁다,국밥이 뜨겅다,perturbed,jongseong,ㅂ,ㅇ,5,76,국밥이 뜨거운다
+150,18,ko-KR-SunHiNeural,약속 장소로 걸어갔다,약속 장소로 걸어갔다,normal,,,,,100,약속 장소로 걸어갔다.
+151,18,ko-KR-SunHiNeural,약속 장소로 걸어갔다,약속 징소로 걸어갔다,perturbed,jungseong,ㅏ,ㅣ,3,96,약속 증소로 걸어갔다.
+152,18,ko-KR-SunHiNeural,약속 장소로 걸어갔다,약속 장소로 걸어곴다,perturbed,jungseong,ㅏ,ㅗ,9,100,약속 장소로 걸어갔다
+153,19,ko-KR-SunHiNeural,박물관에 다녀왔다,박물관에 다녀왔다,normal,,,,,100,박물관에 다녀왔다.
+154,19,ko-KR-SunHiNeural,박물관에 다녀왔다,박물관에 나녀왔다,perturbed,choseong,ㄷ,ㄴ,5,96,박물관에 나녀왔다.
+155,19,ko-KR-SunHiNeural,박물관에 다녀왔다,박둘관에 다녀왔다,perturbed,choseong,ㅁ,ㄷ,1,88,박돌관에 다녀왔다.
+156,20,ko-KR-SunHiNeural,앞마당에 눈이 쌓였다,앞마당에 눈이 쌓였다,normal,,,,,100,앞마당에 눈이 쌓였다.
+157,20,ko-KR-SunHiNeural,앞마당에 눈이 쌓였다,앞마당에 눈이 쌓영다,perturbed,jongseong,ㅆ,ㅇ,9,93,앞마당에 눈이 쌓영다.
+158,20,ko-KR-SunHiNeural,앞마당에 눈이 쌓였다,앞마당에 는이 쌓였다,perturbed,jungseong,ㅜ,ㅡ,5,89,암마당의 루니사였다
+159,21,ko-KR-SunHiNeural,겉모습만 보면 모른다,겉모습만 보면 모른다,normal,,,,,100,겉모습만 보면 모른다.
+160,21,ko-KR-SunHiNeural,겉모습만 보면 모른다,겉모습만 보면 머른다,perturbed,jungseong,ㅗ,ㅓ,8,96,겉모습만 보면 멀은다.
+161,21,ko-KR-SunHiNeural,겉모습만 보면 모른다,겉모습만 보젼 모른다,perturbed,choseong,ㅁ,ㅈ,6,93,겉모습만 보존 모른다.
+162,22,ko-KR-SunHiNeural,밥맛이 정말 좋다,밥맛이 정말 좋다,normal,,,,,95,반맛이 정말 좋다.
+163,22,ko-KR-SunHiNeural,밥맛이 정말 좋다,밥맛이 정말 좋나,perturbed,choseong,ㄷ,ㄴ,8,86,반맛이 정말 좋나
+164,22,ko-KR-SunHiNeural,밥맛이 정말 좋다,밥맛이 정살 좋다,perturbed,choseong,ㅁ,ㅅ,5,86,반맛이 정살 좋다.
+165,23,ko-KR-SunHiNeural,축하 인사를 건넸다,축하 인사를 건넸다,normal,,,,,96,축하 인사를 건냈다.
+166,23,ko-KR-SunHiNeural,축하 인사를 건넸다,축하 인사를 건넸도,perturbed,jungseong,ㅏ,ㅗ,9,92,축하 인사를 건네 또!
+167,23,ko-KR-SunHiNeural,축하 인사를 건넸다,축하 운사를 건넸다,perturbed,jungseong,ㅣ,ㅜ,3,92,축하온사를 건냈다.
+168,24,ko-KR-SunHiNeural,입학을 축하한다,입학을 축하한다,normal,,,,,100,입학을 축하한다.
+169,24,ko-KR-SunHiNeural,입학을 축하한다,입훅을 축하한다,perturbed,jungseong,ㅏ,ㅜ,1,90,이쁙을 축하한다.
+170,24,ko-KR-SunHiNeural,입학을 축하한다,입학을 축하하다,perturbed,jongseong,ㄴ,(삭제),6,95,입학을 축하하다.
+171,25,ko-KR-SunHiNeural,따뜻한 국을 먹었다,따뜻한 국을 먹었다,normal,,,,,100,따뜻한 국을 먹었다.
+172,25,ko-KR-SunHiNeural,따뜻한 국을 먹었다,따뜻한 국블 먹었다,perturbed,choseong,ㅇ,ㅂ,5,88,따뜻한 국불 먹었다
+173,25,ko-KR-SunHiNeural,따뜻한 국을 먹었다,따뜻한 국을 넉었다,perturbed,choseong,ㅁ,ㄴ,7,92,따뜻한 국을 넣었다.
+174,26,ko-KR-SunHiNeural,낮잠을 잤다,낮잠을 잤다,normal,,,,,100,낮잠을 잤다
+175,26,ko-KR-SunHiNeural,낮잠을 잤다,낮잠으 잤다,perturbed,jongseong,ㄹ,(삭제),2,100,낮잠을 잤다
+176,26,ko-KR-SunHiNeural,낮잠을 잤다,낮잠을 잤두,perturbed,jungseong,ㅏ,ㅜ,5,93,낮잠을 잣도
+177,27,ko-KR-SunHiNeural,낮과 밤이 다르다,낮과 밤이 다르다,normal,,,,,95,낙과 밤이 다르다.
+178,27,ko-KR-SunHiNeural,낮과 밤이 다르다,낮과 밤이 다르타,perturbed,choseong,ㄷ,ㅌ,8,95,낙과 밤이 다르다
+179,27,ko-KR-SunHiNeural,낮과 밤이 다르다,낮과 밤디 다르다,perturbed,choseong,ㅇ,ㄷ,4,86,낙과 밤디 다르다
+180,28,ko-KR-SunHiNeural,숲 속은 시원하다,숲 속은 시원하다,normal,,,,,100,숲속은 시원하다.
+181,28,ko-KR-SunHiNeural,숲 속은 시원하다,숲 속은 시줜하다,perturbed,choseong,ㅇ,ㅈ,6,90,숲속은 시전하다.
+182,28,ko-KR-SunHiNeural,숲 속은 시원하다,숲 속은 시원하드,perturbed,jungseong,ㅏ,ㅡ,8,95,숲속은 시원하드
+183,29,ko-KR-SunHiNeural,꽃다발을 받았다,꽃다발을 받았다,normal,,,,,100,꽃다발을 받았다
+184,29,ko-KR-SunHiNeural,꽃다발을 받았다,꽃다발을 반았다,perturbed,jongseong,ㄷ,ㄴ,5,100,꽃다발을 받았다
+185,29,ko-KR-SunHiNeural,꽃다발을 받았다,꽃다발을 빋았다,perturbed,jungseong,ㅏ,ㅣ,5,95,꽃다발을 비닫다
+186,30,ko-KR-SunHiNeural,빗소리가 들린다,빗소리가 들린다,normal,,,,,100,빗소리가 들린다.
+187,30,ko-KR-SunHiNeural,빗소리가 들린다,빗소리가 늘린다,perturbed,choseong,ㄷ,ㄴ,5,95,빗소리가 늘린다.
+188,30,ko-KR-SunHiNeural,빗소리가 들린다,빗소니가 들린다,perturbed,choseong,ㄹ,ㄴ,2,95,빗소니가 들린다.
+189,31,ko-KR-SunHiNeural,부엌문을 닫았다,부엌문을 닫았다,normal,,,,,100,부엉문을 닫았다.
+190,31,ko-KR-SunHiNeural,부엌문을 닫았다,부엌문즐 닫았다,perturbed,choseong,ㅇ,ㅈ,3,86,부엉문질 닫았다
+191,31,ko-KR-SunHiNeural,부엌문을 닫았다,부엌문을 닫났다,perturbed,choseong,ㅇ,ㄴ,6,90,부엉문을 단났다
+192,32,ko-KR-SunHiNeural,값비싼 옷을 샀다,값비싼 옷을 샀다,normal,,,,,100,값비싼 옷을 샀다
+193,32,ko-KR-SunHiNeural,값비싼 옷을 샀다,값비싼 옷을 샀도,perturbed,jungseong,ㅏ,ㅗ,8,90,값비싼 옷을 샛도
+194,32,ko-KR-SunHiNeural,값비싼 옷을 샀다,값비싼 옷을 샀나,perturbed,choseong,ㄷ,ㄴ,8,90,값비싼 옷을 산다
+195,33,ko-KR-SunHiNeural,닭고기를 볶아 먹었다,닭고기를 볶아 먹었다,normal,,,,,100,닭고기를 볶아 먹었다
+196,33,ko-KR-SunHiNeural,닭고기를 볶아 먹었다,닭고기를 볼아 먹었다,perturbed,jongseong,ㄲ,ㄹ,5,96,닭고기를 보라 먹었다
+197,33,ko-KR-SunHiNeural,닭고기를 볶아 먹었다,닭구기를 볶아 먹었다,perturbed,jungseong,ㅗ,ㅜ,1,93,달고기를 볶아 먹었다
+198,1,ko-KR-InJoonNeural,국물이 정말 시원하다,국물이 정말 시원하다,normal,,,,,100,국물이 정말 시원하다.
+199,1,ko-KR-InJoonNeural,국물이 정말 시원하다,국믈이 정말 시원하다,perturbed,jungseong,ㅜ,ㅡ,1,100,국물이 정말 시원하다.
+200,1,ko-KR-InJoonNeural,국물이 정말 시원하다,국물이 정마 시원하다,perturbed,jongseong,ㄹ,(삭제),5,100,국물이 정말 시원하다.
+201,2,ko-KR-InJoonNeural,밥을 먹었다,밥을 먹었다,normal,,,,,100,밥을 먹었다
+202,2,ko-KR-InJoonNeural,밥을 먹었다,밥울 먹었다,perturbed,jungseong,ㅡ,ㅜ,1,100,밥을 먹었다
+203,2,ko-KR-InJoonNeural,밥을 먹었다,밥을 먹었도,perturbed,jungseong,ㅏ,ㅗ,5,93,밥을 먹었도
+204,3,ko-KR-InJoonNeural,신라면이 맵다,신라면이 맵다,normal,,,,,100,실라면이 맵다.
+205,3,ko-KR-InJoonNeural,신라면이 맵다,슨라면이 맵다,perturbed,jungseong,ㅣ,ㅡ,0,89,슬라멘이 맵다.
+206,3,ko-KR-InJoonNeural,신라면이 맵다,신르면이 맵다,perturbed,jungseong,ㅏ,ㅡ,1,94,실르면이 맵다.
+207,4,ko-KR-InJoonNeural,좋다고 말했다,좋다고 말했다,normal,,,,,100,좋다고 말했다.
+208,4,ko-KR-InJoonNeural,좋다고 말했다,좋다고 말핻다,perturbed,jongseong,ㅆ,ㄷ,5,100,좋다고 말했다.
+209,4,ko-KR-InJoonNeural,좋다고 말했다,좋다고 말했도,perturbed,jungseong,ㅏ,ㅗ,6,94,좋다고 말했도
+210,5,ko-KR-InJoonNeural,학교에 갔다,학교에 갔다,normal,,,,,100,학교에 갔다
+211,5,ko-KR-InJoonNeural,학교에 갔다,학쿄에 갔다,perturbed,choseong,ㄱ,ㅋ,1,100,학교에 갔다.
+212,5,ko-KR-InJoonNeural,학교에 갔다,학교에 갔타,perturbed,choseong,ㄷ,ㅌ,5,100,학교에 갔다
+213,6,ko-KR-InJoonNeural,옷이 예쁘다,옷이 예쁘다,normal,,,,,100,옷이 예쁘다.
+214,6,ko-KR-InJoonNeural,옷이 예쁘다,옷이 이쁘다,perturbed,jungseong,ㅖ,ㅣ,3,100,옷이 예쁘다.
+215,6,ko-KR-InJoonNeural,옷이 예쁘다,옷이 녜쁘다,perturbed,choseong,ㅇ,ㄴ,3,100,옷이 예쁘다.
+216,7,ko-KR-InJoonNeural,어머니가 오셨다,어머니가 오셨다,normal,,,,,100,어머니가 오셨다.
+217,7,ko-KR-InJoonNeural,어머니가 오셨다,어머니카 오셨다,perturbed,choseong,ㄱ,ㅋ,3,100,어머니가 오셨다.
+218,7,ko-KR-InJoonNeural,어머니가 오셨다,어머니카 오셨다,perturbed,choseong,ㄱ,ㅋ,3,100,어머니가 오셨다.
+219,8,ko-KR-InJoonNeural,라디오를 켰다,라디오를 켰다,normal,,,,,100,라디오를 켰다
+220,8,ko-KR-InJoonNeural,라디오를 켰다,라디오를 쿘다,perturbed,jungseong,ㅕ,ㅛ,5,100,라디오를 켰다
+221,8,ko-KR-InJoonNeural,라디오를 켰다,르디오를 켰다,perturbed,jungseong,ㅏ,ㅡ,0,50,NUDIO를 켰다.
+222,9,ko-KR-InJoonNeural,읽고 다시 말했다,읽고 다시 말했다,normal,,,,,100,읽고 다시 말했다.
+223,9,ko-KR-InJoonNeural,읽고 다시 말했다,읽고 다시 맘했다,perturbed,jongseong,ㄹ,ㅁ,6,95,읽고 다시 맘했다.
+224,9,ko-KR-InJoonNeural,읽고 다시 말했다,읽고 다시 몰했다,perturbed,jungseong,ㅏ,ㅗ,6,81,잊고 다시 모랬다.
+225,10,ko-KR-InJoonNeural,같이 갑시다,같이 갑시다,normal,,,,,100,같이 갑시다.
+226,10,ko-KR-InJoonNeural,같이 갑시다,같이 갑시나,perturbed,choseong,ㄷ,ㄴ,5,100,같이 갑시다.
+227,10,ko-KR-InJoonNeural,같이 갑시다,같이 갑씨다,perturbed,choseong,ㅅ,ㅆ,4,100,같이 갑시다.
+228,11,ko-KR-InJoonNeural,웃음이 절로 나온다,웃음이 절로 나온다,normal,,,,,100,웃음이 절로 나온다.
+229,11,ko-KR-InJoonNeural,웃음이 절로 나온다,웃음이 절로 나옹다,perturbed,jongseong,ㄴ,ㅇ,8,100,웃음이 절로 나온다
+230,11,ko-KR-InJoonNeural,웃음이 절로 나온다,웃움이 절로 나온다,perturbed,jungseong,ㅡ,ㅜ,1,100,웃음이 절로 나온다.
+231,12,ko-KR-InJoonNeural,구름이 하늘에 떠 있다,구름이 하늘에 떠 있다,normal,,,,,100,구름이 하늘에 떠 있다.
+232,12,ko-KR-InJoonNeural,구름이 하늘에 떠 있다,구름이 하늘에 떠 있나,perturbed,choseong,ㄷ,ㄴ,11,93,구름이 하늘에 떠있나
+233,12,ko-KR-InJoonNeural,구름이 하늘에 떠 있다,구름이 하늘에 떠 았다,perturbed,jungseong,ㅣ,ㅏ,10,93,구름이 하늘에 또 왔다
+234,13,ko-KR-InJoonNeural,꽃이 활짝 피었다,꽃이 활짝 피었다,normal,,,,,100,꽃이 활짝 피었다.
+235,13,ko-KR-InJoonNeural,꽃이 활짝 피었다,꽃이 활짝 피벘다,perturbed,choseong,ㅇ,ㅂ,7,95,꽃이 활짝 피벗다.
+236,13,ko-KR-InJoonNeural,꽃이 활짝 피었다,곷이 활짝 피었다,perturbed,choseong,ㄲ,ㄱ,0,95,고치 활짝 피었다.
+237,14,ko-KR-InJoonNeural,얼음이 녹아 물이 되었다,얼음이 녹아 물이 되었다,normal,,,,,100,얼음이 녹아 물이 되었다.
+238,14,ko-KR-InJoonNeural,얼음이 녹아 물이 되었다,올음이 녹아 물이 되었다,perturbed,jungseong,ㅓ,ㅗ,0,97,오르미 녹아 무리 되었다
+239,14,ko-KR-InJoonNeural,얼음이 녹아 물이 되었다,얼음오 녹아 물이 되었다,perturbed,jungseong,ㅣ,ㅗ,2,93,얼음옷 녹아 무리 되었다
+240,15,ko-KR-InJoonNeural,숙제를 먼저 끝냈다,숙제를 먼저 끝냈다,normal,,,,,92,숙제를 먼저 끝내다.
+241,15,ko-KR-InJoonNeural,숙제를 먼저 끝냈다,숙제를 먼저 긑냈다,perturbed,choseong,ㄲ,ㄱ,7,100,숙제를 먼저 끝냈다.
+242,15,ko-KR-InJoonNeural,숙제를 먼저 끝냈다,쑥제를 먼저 끝냈다,perturbed,choseong,ㅅ,ㅆ,0,92,숙제를 먼저 끝내다.
+243,16,ko-KR-InJoonNeural,책상 위에 책이 있다,책상 위에 책이 있다,normal,,,,,100,책상 위에 책이 있다.
+244,16,ko-KR-InJoonNeural,책상 위에 책이 있다,첵상 위에 책이 있다,perturbed,jungseong,ㅐ,ㅔ,0,100,책상 위에 책이 있다.
+245,16,ko-KR-InJoonNeural,책상 위에 책이 있다,책삼 위에 책이 있다,perturbed,jongseong,ㅇ,ㅁ,1,88,책3위의 책이 있다.
+246,17,ko-KR-InJoonNeural,국밥이 뜨겁다,국밥이 뜨겁다,normal,,,,,100,국밥이 뜨겁다.
+247,17,ko-KR-InJoonNeural,국밥이 뜨겁다,국밥이 뜨곱다,perturbed,jungseong,ㅓ,ㅗ,5,100,국밥이 뜨겁다
+248,17,ko-KR-InJoonNeural,국밥이 뜨겁다,국팝이 뜨겁다,perturbed,choseong,ㅂ,ㅍ,1,94,국파비 뜨겁다.
+249,18,ko-KR-InJoonNeural,약속 장소로 걸어갔다,약속 장소로 걸어갔다,normal,,,,,100,약속장소로 걸어갔다
+250,18,ko-KR-InJoonNeural,약속 장소로 걸어갔다,약속 장소로 골어갔다,perturbed,jungseong,ㅓ,ㅗ,7,93,약속장소로 보러갔다.
+251,18,ko-KR-InJoonNeural,약속 장소로 걸어갔다,약쏙 장소로 걸어갔다,perturbed,choseong,ㅅ,ㅆ,1,100,약속장소로 걸어갔다
+252,19,ko-KR-InJoonNeural,박물관에 다녀왔다,박물관에 다녀왔다,normal,,,,,100,박물관에 다녀왔다.
+253,19,ko-KR-InJoonNeural,박물관에 다녀왔다,박물관에 다녀웄다,perturbed,jungseong,ㅘ,ㅜ,7,100,박물관에 다녀왔다.
+254,19,ko-KR-InJoonNeural,박물관에 다녀왔다,박물관세 다녀왔다,perturbed,choseong,ㅇ,ㅅ,3,92,박물관세 다녀왔다.
+255,20,ko-KR-InJoonNeural,앞마당에 눈이 쌓였다,앞마당에 눈이 쌓였다,normal,,,,,100,앞마당에 눈이 쌓였다
+256,20,ko-KR-InJoonNeural,앞마당에 눈이 쌓였다,앞마당에 눈이 쎃였다,perturbed,jungseong,ㅏ,ㅓ,8,96,앞마당에 눈이 써였다
+257,20,ko-KR-InJoonNeural,앞마당에 눈이 쌓였다,앞마당에 눈이 쌓였나,perturbed,choseong,ㄷ,ㄴ,10,93,앞마당에 눈이 쌓였나
+258,21,ko-KR-InJoonNeural,겉모습만 보면 모른다,겉모습만 보면 모른다,normal,,,,,100,겉모습만 보면 모른다.
+259,21,ko-KR-InJoonNeural,겉모습만 보면 모른다,겉무습만 보면 모른다,perturbed,jungseong,ㅗ,ㅜ,1,89,겉무순만 보면 모른다.
+260,21,ko-KR-InJoonNeural,겉모습만 보면 모른다,겉모습만 보면 모르다,perturbed,jongseong,ㄴ,(삭제),9,96,겉모습만 보면 모르다.
+261,22,ko-KR-InJoonNeural,밥맛이 정말 좋다,밥맛이 정말 좋다,normal,,,,,100,밥 맛이 정말 좋다!
+262,22,ko-KR-InJoonNeural,밥맛이 정말 좋다,법맛이 정말 좋다,perturbed,jungseong,ㅏ,ㅓ,0,95,법맛이 정말 좋다.
+263,22,ko-KR-InJoonNeural,밥맛이 정말 좋다,밥맛니 정말 좋다,perturbed,choseong,ㅇ,ㄴ,2,100,밥맛이 정말 좋다.
+264,23,ko-KR-InJoonNeural,축하 인사를 건넸다,축하 인사를 건넸다,normal,,,,,96,축하 인사를 건냈다.
+265,23,ko-KR-InJoonNeural,축하 인사를 건넸다,축바 인사를 건넸다,perturbed,choseong,ㅎ,ㅂ,1,88,축바 인사를 건냈다.
+266,23,ko-KR-InJoonNeural,축하 인사를 건넸다,축하 인사를 건렜다,perturbed,choseong,ㄴ,ㄹ,8,88,축하 인사를 걸렸다.
+267,24,ko-KR-InJoonNeural,입학을 축하한다,입학을 축하한다,normal,,,,,100,입학을 축하한다.
+268,24,ko-KR-InJoonNeural,입학을 축하한다,입혹을 축하한다,perturbed,jungseong,ㅏ,ㅗ,1,95,이폭을 축하한다.
+269,24,ko-KR-InJoonNeural,입학을 축하한다,입학을 축다한다,perturbed,choseong,ㅎ,ㄷ,5,90,입학을 축다한다.
+270,25,ko-KR-InJoonNeural,따뜻한 국을 먹었다,따뜻한 국을 먹었다,normal,,,,,100,따뜻한 국을 먹었다
+271,25,ko-KR-InJoonNeural,따뜻한 국을 먹었다,따뜻한 국을 목었다,perturbed,jungseong,ㅓ,ㅗ,7,100,따뜻한 국을 먹었다.
+272,25,ko-KR-InJoonNeural,따뜻한 국을 먹었다,따뜻항 국을 먹었다,perturbed,jongseong,ㄴ,ㅇ,2,100,따뜻한 국을 먹었다
+273,26,ko-KR-InJoonNeural,낮잠을 잤다,낮잠을 잤다,normal,,,,,100,낮잠을 잤다.
+274,26,ko-KR-InJoonNeural,낮잠을 잤다,날잠을 잤다,perturbed,jongseong,ㅈ,ㄹ,0,80,날잠을 찾다
+275,26,ko-KR-InJoonNeural,낮잠을 잤다,낮잠윽 잤다,perturbed,jongseong,ㄹ,ㄱ,2,100,낮잠을 잤다.
+276,27,ko-KR-InJoonNeural,낮과 밤이 다르다,낮과 밤이 다르다,normal,,,,,95,낙과 밤이 다르다
+277,27,ko-KR-InJoonNeural,낮과 밤이 다르다,낮과 밤이 드르다,perturbed,jungseong,ㅏ,ㅡ,6,95,낮과 밤이 들으다.
+278,27,ko-KR-InJoonNeural,낮과 밤이 다르다,낮과 밤이 타르다,perturbed,choseong,ㄷ,ㅌ,6,90,낙과 밤이 타르다
+279,28,ko-KR-InJoonNeural,숲 속은 시원하다,숲 속은 시원하다,normal,,,,,100,숲속은 시원하다.
+280,28,ko-KR-InJoonNeural,숲 속은 시원하다,숲 속은 시원자다,perturbed,choseong,ㅎ,ㅈ,7,95,숲속은 시원자다.
+281,28,ko-KR-InJoonNeural,숲 속은 시원하다,숲 속운 시원하다,perturbed,jungseong,ㅡ,ㅜ,3,100,숲속은 시원하다.
+282,29,ko-KR-InJoonNeural,꽃다발을 받았다,꽃다발을 받았다,normal,,,,,100,꽃다발을 받았다
+283,29,ko-KR-InJoonNeural,꽃다발을 받았다,꽃다발을 볻았다,perturbed,jungseong,ㅏ,ㅗ,5,81,꽃다발을 보다
+284,29,ko-KR-InJoonNeural,꽃다발을 받았다,꽃다발을 받닸다,perturbed,choseong,ㅇ,ㄷ,6,90,꽃다발을 받닫다
+285,30,ko-KR-InJoonNeural,빗소리가 들린다,빗소리가 들린다,normal,,,,,100,빗소리가 들린다.
+286,30,ko-KR-InJoonNeural,빗소리가 들린다,붓소리가 들린다,perturbed,jungseong,ㅣ,ㅜ,0,95,붓소리가 들린다.
+287,30,ko-KR-InJoonNeural,빗소리가 들린다,빗소리가 들린나,perturbed,choseong,ㄷ,ㄴ,7,100,빗소리가 들린다.
+288,31,ko-KR-InJoonNeural,부엌문을 닫았다,부엌문을 닫았다,normal,,,,,100,부엉문을 닫았다.
+289,31,ko-KR-InJoonNeural,부엌문을 닫았다,부엌믄을 닫았다,perturbed,jungseong,ㅜ,ㅡ,2,100,부엉문을 닫았다.
+290,31,ko-KR-InJoonNeural,부엌문을 닫았다,부엌몬을 닫았다,perturbed,jungseong,ㅜ,ㅗ,2,100,부엉문을 닫았다.
+291,32,ko-KR-InJoonNeural,값비싼 옷을 샀다,값비싼 옷을 샀다,normal,,,,,100,값비싼 옷을 샀다
+292,32,ko-KR-InJoonNeural,값비싼 옷을 샀다,값부싼 옷을 샀다,perturbed,jungseong,ㅣ,ㅜ,1,81,갓불산 옷을 샀다
+293,32,ko-KR-InJoonNeural,값비싼 옷을 샀다,값비싼 옷을 샀타,perturbed,choseong,ㄷ,ㅌ,8,100,값비싼 옷을 샅다
+294,33,ko-KR-InJoonNeural,닭고기를 볶아 먹었다,닭고기를 볶아 먹었다,normal,,,,,100,닭고기를 볶아 먹었다.
+295,33,ko-KR-InJoonNeural,닭고기를 볶아 먹었다,닭고기를 볶아 멈었다,perturbed,jongseong,ㄱ,ㅁ,8,93,닭고기를 볶아 머묻다.
+296,33,ko-KR-InJoonNeural,닭고기를 볶아 먹었다,듥고기를 볶아 먹었다,perturbed,jungseong,ㅏ,ㅡ,0,89,들고기를 볶아 먹었다.

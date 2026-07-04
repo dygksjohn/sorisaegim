@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소리새김 — 학습 기록</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/stats.css">
+</head>
+<body>
+  <header>
+    <h1>학습 기록</h1>
+    <p class="tagline"><a href="/">← 연습으로 돌아가기</a></p>
+  </header>
+
+  <main class="stats-main">
+    <div class="tile-row">
+      <div class="tile"><div id="tile-total" class="tile-num">–</div><div class="tile-label">총 시도</div></div>
+      <div class="tile"><div id="tile-avg" class="tile-num">–</div><div class="tile-label">평균 점수</div></div>
+      <div class="tile"><div id="tile-errors" class="tile-num">–</div><div class="tile-label">누적 오류 수</div></div>
+    </div>
+
+    <div class="card chart-card">
+      <h2>점수 추이</h2>
+      <div class="chart-box"><canvas id="chart-trend"></canvas></div>
+    </div>
+
+    <div class="card chart-card">
+      <h2>문장 유형별 평균 점수</h2>
+      <div class="chart-box"><canvas id="chart-types"></canvas></div>
+    </div>
+
+    <div class="card chart-card">
+      <h2>자주 틀리는 자모 TOP 5</h2>
+      <ul id="weak-list" class="weak-list"></ul>
+      <p id="weak-empty" class="status" hidden>아직 집계할 오류가 없습니다.</p>
+    </div>
+
+    <div class="card chart-card">
+      <h2>최근 시도</h2>
+      <div class="table-wrap">
+        <table id="attempts-table">
+          <thead><tr><th>시각</th><th>문장</th><th>유형</th><th>점수</th><th>인식 결과</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="/vendor/chart.umd.js"></script>
+  <script src="/stats.js"></script>
+</body>
+</html>

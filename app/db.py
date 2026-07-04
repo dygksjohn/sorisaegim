@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS attempts (
     stt_text    TEXT NOT NULL,
     score       INTEGER NOT NULL,
     errors_json TEXT NOT NULL,         -- 엔진 오류 리포트 (JSON)
-    created_at  TEXT NOT NULL          -- ISO 8601 (KST)
+    created_at  TEXT NOT NULL,         -- ISO 8601 (KST)
+    source      TEXT NOT NULL DEFAULT 'user'  -- user(실사용) | synth(TTS 합성 증강)
 );
 """
 
@@ -92,6 +93,12 @@ def init_db() -> None:
     conn = get_conn()
     try:
         conn.executescript(SCHEMA)
+        # 마이그레이션: 6주차 이전 DB에는 source 컬럼이 없다
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(attempts)")}
+        if "source" not in cols:
+            conn.execute(
+                "ALTER TABLE attempts ADD COLUMN source TEXT NOT NULL DEFAULT 'user'"
+            )
         # text UNIQUE + INSERT OR IGNORE → 재실행해도 기존 문장 id 불변, 새 문장만 추가
         existing = {r[0] for r in conn.execute("SELECT text FROM sentences")}
         new_rows = [s for s in SEED_SENTENCES if s[0] not in existing]

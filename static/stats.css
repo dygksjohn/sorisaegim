@@ -1,0 +1,34 @@
+.stats-main { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 16px; }
+
+.tagline a { color: #4f46e5; text-decoration: none; }
+.tagline a:hover { text-decoration: underline; }
+
+.tile-row { display: flex; gap: 12px; }
+.tile {
+  flex: 1; background: #fff; border-radius: 16px; padding: 18px 12px;
+  box-shadow: 0 2px 12px rgba(31, 36, 48, 0.08); text-align: center;
+}
+.tile-num { font-size: 2rem; font-weight: 800; color: #1f2430; }
+.tile-label { color: #6b7280; font-size: 0.85rem; margin-top: 4px; }
+
+.chart-card h2 { font-size: 1.05rem; margin-bottom: 14px; }
+.chart-box { position: relative; height: 240px; }
+
+.weak-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.weak-list li { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+.weak-rank { color: #9ca3af; width: 1.4em; text-align: right; }
+.weak-desc { min-width: 11em; }
+.weak-desc b { color: #b91c1c; }
+.weak-bar-track { flex: 1; display: block; background: #eef2ff; border-radius: 4px; height: 14px; }
+.weak-bar { display: block; background: #4f46e5; border-radius: 4px; height: 14px; min-width: 4px; }
+.weak-count { color: #6b7280; font-size: 0.85rem; width: 3.5em; }
+
+.table-wrap { overflow-x: auto; }
+#attempts-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+#attempts-table th, #attempts-table td {
+  padding: 8px 10px; text-align: left; border-top: 1px solid #f0f1f5; white-space: nowrap;
+}
+#attempts-table th { color: #9ca3af; font-weight: 600; border-top: none; }
+#attempts-table td.score-good { color: #16a34a; font-weight: 700; }
+#attempts-table td.score-mid { color: #d97706; font-weight: 700; }
+#attempts-table td.score-bad { color: #dc2626; font-weight: 700; }

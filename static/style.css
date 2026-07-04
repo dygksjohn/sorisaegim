@@ -17,6 +17,9 @@ body {
 header { text-align: center; margin-bottom: 24px; }
 header h1 { font-size: 1.8rem; letter-spacing: 0.06em; }
 .tagline { color: #6b7280; font-size: 0.9rem; margin-top: 6px; }
+.nav { margin-top: 8px; }
+.nav a { color: #4f46e5; font-size: 0.9rem; text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
 
 main { width: 100%; max-width: 560px; }
 
