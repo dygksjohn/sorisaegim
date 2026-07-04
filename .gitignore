@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# 환경/비밀
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# TTS 생성 음원 (스크립트로 재생성 가능)
+experiments/tts_out/
+
+# 육성 녹음 (개인 음성 데이터 — 로컬 보관. manifest.csv는 추적)
+experiments/recordings/*.wav
+experiments/recordings/*.mp3
+experiments/recordings/*.m4a
+experiments/recordings/*.webm
+experiments/recordings/*.ogg
+
+# DB·업로드 (3주차 이후)
+*.db
+*.sqlite3
+uploads/

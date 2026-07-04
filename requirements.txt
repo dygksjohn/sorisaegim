@@ -1,0 +1,12 @@
+# 1주차 기술 검증용 의존성
+openai-whisper
+edge-tts
+
+# 2주차 — wav2vec2 검증 + 테스트
+transformers
+pytest
+phonemizer  # espeak IPA 모델용 (네이티브 espeak-ng 별도 필요 — 보류 중)
+
+# 발음형 변환 (2주차부터 필수) — Windows 설치 절차는 experiments\README.md '알려진 이슈' 참고
+# (MSVC C++ 워크로드 + C:\mecab 의 mecab-ko-msvc + site-packages에 libmecab.dll 복사 필요)
+g2pk
