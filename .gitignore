@@ -22,7 +22,8 @@ experiments/recordings/*.m4a
 experiments/recordings/*.webm
 experiments/recordings/*.ogg
 
-# DB·업로드 (3주차 이후)
+# 런타임 데이터 전체 (DB·TTS 캐시·업로드 녹음)
+data/
 *.db
 *.sqlite3
 uploads/
