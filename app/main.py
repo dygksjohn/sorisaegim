@@ -15,6 +15,7 @@ from pathlib import Path
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 import stt
 import tts
@@ -142,3 +143,11 @@ async def create_attempt(sentence_id: int = Form(...), audio: UploadFile = File(
         "analysis": analysis,
         "created_at": created_at,
     }
+
+
+# 프론트 (4주차) — API 라우트가 먼저 매칭되고, 나머지 경로는 static/ 에서 서빙
+app.mount(
+    "/",
+    StaticFiles(directory=Path(__file__).parent.parent / "static", html=True),
+    name="static",
+)

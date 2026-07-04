@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소리새김 — 한국어 발음 코치</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>소리새김</h1>
+    <p class="tagline">문장을 읽으면 발음을 자모 단위로 짚어주는 한국어 발음 코치</p>
+  </header>
+
+  <main>
+    <!-- 연습 화면 -->
+    <section id="practice-view">
+      <div class="card">
+        <div class="sentence-meta">
+          <span id="sentence-type" class="badge"></span>
+          <span id="sentence-difficulty" class="badge badge-dim"></span>
+          <span id="sentence-counter" class="counter"></span>
+        </div>
+        <p id="sentence-text" class="sentence"></p>
+        <p id="sentence-pron" class="pron"></p>
+
+        <div class="controls">
+          <button id="btn-listen" class="btn">🔊 듣기</button>
+          <button id="btn-record" class="btn btn-primary">🎙 녹음 시작</button>
+          <button id="btn-stop" class="btn btn-danger" hidden>⏹ 정지</button>
+        </div>
+
+        <div id="rec-indicator" class="rec-indicator" hidden>
+          <span class="rec-dot"></span> 녹음 중 <span id="rec-time">0:00</span>
+        </div>
+        <div id="loading" class="loading" hidden>
+          <span class="spinner"></span> 채점 중...
+        </div>
+        <p id="status" class="status"></p>
+      </div>
+    </section>
+
+    <!-- 결과 화면 -->
+    <section id="result-view" hidden>
+      <div class="card">
+        <div id="score-wrap">
+          <div id="score" class="score">0</div>
+          <div class="score-label">점</div>
+        </div>
+
+        <p class="section-label">표준 발음 (틀린 부분 표시)</p>
+        <p id="highlight" class="sentence highlight-line"></p>
+
+        <p class="section-label">이렇게 들렸어요</p>
+        <p id="recognized" class="recognized"></p>
+
+        <ul id="error-list" class="error-list"></ul>
+
+        <div class="controls">
+          <button id="btn-retry" class="btn btn-primary">🔁 다시 도전</button>
+          <button id="btn-next" class="btn">다음 문장 →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <audio id="tts-audio"></audio>
+  <script src="/app.js"></script>
+</body>
+</html>

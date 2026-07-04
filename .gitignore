@@ -22,6 +22,9 @@ experiments/recordings/*.m4a
 experiments/recordings/*.webm
 experiments/recordings/*.ogg
 
+# 데모 영상 (대용량 — 로컬 보관, 배포는 링크로)
+docs/demo/
+
 # 런타임 데이터 전체 (DB·TTS 캐시·업로드 녹음)
 data/
 *.db

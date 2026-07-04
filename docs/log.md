@@ -2,6 +2,12 @@
 
 > 운영 원칙: 주당 3줄 — 한 것 / 막힌 것 / 다음. 회고 글 재료.
 
+## 4주차 (2026-07-04 ~)
+
+- **한 것**: 프론트 완성(프레임워크 없이 HTML+JS) — 연습 화면(문장·발음형·[듣기]·MediaRecorder 녹음, 15초 자동 정지, 정지 시 자동 업로드) + 결과 화면(점수 색상 표시, `reference_pron` 음절 하이라이트 + 툴팁, 오류 목록, 재도전/다음). FastAPI에 정적 서빙 mount. 검증: webm(opus) 업로드 전 구간 통과, 헤드리스 브라우저 스크린샷 확인(`docs/img/`). **실사용 검증: 브라우저 마이크로 10문장 35회 시도 전부 정상 채점** (오독 시 89/73점 등 하이라이트 정확). **데모 영상 확보(`docs/demo/mvp_demo_2026-07-04.mp4`, 2분16초) → MVP 체크포인트 달성.**
+- **막힌 것**: ① hidden 속성이 CSS display에 덮여 인디케이터 상시 노출 → `[hidden]{display:none!important}`. ② **게임바(Win+G) 녹화 중 브라우저 마이크가 완전 무음**(-84dB) — 독점 모드 해제로 안 풀림. getUserMedia에서 echoCancellation/noiseSuppression/autoGainControl을 꺼 원시 캡처로 바꾸니 해결. 발음 평가엔 무가공 오디오가 오히려 적합.
+- **다음**: 5주차 — 유형별 30문장 + 하이라이트 개선 + 에러 처리(무음·짧은 녹음 거부). 1주차 결정에 따라 축소 1순위 주간.
+
 ## 3주차 (2026-07-04 ~)
 
 - **한 것**: FastAPI 백엔드 완성 — `app/`(API·SQLite) · `stt/`(Whisper small 래퍼) · `tts/`(Edge-TTS 캐싱) 분리, 시드 10문장(=1주차 실험 문장, 발음형 자동 계산). `GET /sentences` · `GET /sentences/{id}/audio`(캐시 0.42s→0.02s) · `POST /attempts`(업로드→ffmpeg→Whisper→엔진→DB, 원본 보관) 모두 `docs/api_spec.md` 스펙대로. 수동 테스트: 1주차 녹음 20건 전부 통과, **평균 2.1s/최대 5.0s (목표 10초 이내 여유)**, 점수는 2주차 엔진 검증과 동일. 오류 응답(404/400/422)도 스펙대로.
