@@ -33,7 +33,7 @@ function currentSentence() {
   return state.sentences[state.index];
 }
 
-function showPractice() {
+function showPractice(recoReason) {
   const s = currentSentence();
   $("sentence-type").textContent = s.type;
   $("sentence-difficulty").textContent = "난이도 " + "★".repeat(s.difficulty);
@@ -42,9 +42,32 @@ function showPractice() {
   $("sentence-pron").textContent = s.pron;
   $("status").textContent = "";
   $("btn-retry-upload").hidden = true;
+  const reason = $("reco-reason");
+  reason.hidden = !recoReason;
+  if (recoReason) reason.textContent = recoReason;
   $("result-view").hidden = true;
   $("practice-view").hidden = false;
 }
+
+// 취약 발음 기반 추천 (7주차 — ML 모델 결과 사용)
+$("btn-reco").addEventListener("click", async () => {
+  try {
+    const res = await fetch("/recommend?top=1");
+    const body = await res.json();
+    if (!res.ok) {
+      $("status").textContent = body.message || "추천을 불러올 수 없습니다.";
+      return;
+    }
+    const rec = body.recommendations[0];
+    const idx = state.sentences.findIndex((s) => s.id === rec.id);
+    if (idx >= 0) {
+      state.index = idx;
+      showPractice(rec.reason);
+    }
+  } catch {
+    $("status").textContent = "추천을 불러올 수 없습니다.";
+  }
+});
 
 async function loadSentences() {
   const res = await fetch("/sentences");

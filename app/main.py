@@ -244,6 +244,24 @@ def stats_attempts(limit: int = 20, source: str = "user"):
     return {"attempts": [dict(r) for r in rows]}
 
 
+# ---------- 추천 (7주차 — ML 모델 사용) ----------
+
+@app.get("/recommend")
+def recommend_sentences(top: int = 3):
+    """취약 발음 기반 연습 문장 추천. ml.train 으로 학습된 모델을 사용한다."""
+    from ml import recommend as rec
+    if not rec.model_available():
+        return error_response(
+            503, "model_not_trained",
+            "모델이 없습니다. 먼저 `python -m ml.train`을 실행하세요")
+    conn = get_conn()
+    try:
+        items = rec.recommend(conn, top=max(1, min(top, 10)))
+    finally:
+        conn.close()
+    return {"recommendations": items}
+
+
 # 프론트 (4주차) — API 라우트가 먼저 매칭되고, 나머지 경로는 static/ 에서 서빙
 app.mount(
     "/",

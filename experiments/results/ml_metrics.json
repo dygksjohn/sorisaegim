@@ -1,0 +1,117 @@
+{
+  "n_user": 98,
+  "n_synth": 198,
+  "task_a": {
+    "베이스라인(다수클래스)": {
+      "cv_roc_auc": 0.5,
+      "cv_roc_auc_std": 0.0,
+      "cv_f1": 0.0
+    },
+    "로지스틱 회귀": {
+      "cv_roc_auc": 0.652,
+      "cv_roc_auc_std": 0.185,
+      "cv_f1": 0.379
+    },
+    "랜덤 포레스트": {
+      "cv_roc_auc": 0.644,
+      "cv_roc_auc_std": 0.183,
+      "cv_f1": 0.391
+    },
+    "best_model": "로지스틱 회귀"
+  },
+  "task_b": {
+    "n_sentences_attempted": 33,
+    "sentence_error_base_rate": 0.394,
+    "precision_at_5_model": 0.6,
+    "precision_at_5_rule": 0.4,
+    "weak_top5": [
+      "jungseong:ㅕ",
+      "jongseong:(없음)",
+      "jungseong:ㅗ",
+      "jongseong:ㄹ",
+      "jungseong:ㅔ"
+    ]
+  },
+  "task_c": {
+    "baseline_f1_macro": 0.213,
+    "rf_f1_macro": 0.284,
+    "note": "합성 라벨은 무작위 주입이라 문장 특징과 독립 — 학습 신호 없음(설계 교훈)"
+  },
+  "task_d": {
+    "per_component": {
+      "choseong": {
+        "detected": 33,
+        "total": 49,
+        "rate": 0.67
+      },
+      "jongseong": {
+        "detected": 7,
+        "total": 20,
+        "rate": 0.35
+      },
+      "jungseong": {
+        "detected": 40,
+        "total": 63,
+        "rate": 0.63
+      }
+    },
+    "hardest_pairs": [
+      {
+        "component": "jungseong",
+        "from": "ㅡ",
+        "to": "ㅜ",
+        "detected": 0,
+        "total": 5
+      },
+      {
+        "component": "choseong",
+        "from": "ㄱ",
+        "to": "ㅋ",
+        "detected": 0,
+        "total": 4
+      },
+      {
+        "component": "jungseong",
+        "from": "ㅐ",
+        "to": "ㅔ",
+        "detected": 0,
+        "total": 2
+      },
+      {
+        "component": "jongseong",
+        "from": "ㄹ",
+        "to": "(삭제)",
+        "detected": 0,
+        "total": 2
+      },
+      {
+        "component": "jongseong",
+        "from": "ㄴ",
+        "to": "ㅇ",
+        "detected": 0,
+        "total": 2
+      },
+      {
+        "component": "choseong",
+        "from": "ㄷ",
+        "to": "ㅌ",
+        "detected": 1,
+        "total": 5
+      },
+      {
+        "component": "jungseong",
+        "from": "ㅜ",
+        "to": "ㅡ",
+        "detected": 1,
+        "total": 4
+      },
+      {
+        "component": "jungseong",
+        "from": "ㅗ",
+        "to": "ㅜ",
+        "detected": 1,
+        "total": 4
+      }
+    ]
+  }
+}

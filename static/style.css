@@ -75,6 +75,8 @@ main { width: 100%; max-width: 560px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .status { margin-top: 14px; color: #b45309; font-size: 0.9rem; min-height: 1.2em; }
+.reco-reason { margin-top: 10px; color: #4f46e5; font-size: 0.85rem; }
+.reco-reason::before { content: "🎯 "; }
 
 /* 결과 화면 */
 #score-wrap { display: flex; align-items: baseline; justify-content: center; gap: 6px; margin-bottom: 20px; }
