@@ -21,8 +21,43 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from engine import to_pronunciation
+from engine.hangul import decompose_text
+
 AIHUB_ROOT = Path(__file__).parent.parent / "data" / "aihub"
 REGIONS = ["asia", "china_japan", "english", "europe"]
+
+# 특수 phone 토큰 (발화 잡음). phones에서 유일한 비-자모 토큰.
+SPN = "spn"
+
+# 겹받침 → 개별 자모 (g2pk가 자음군 단순화를 못 한 드문 경우의 폴백)
+COMPOSITE_JONG = {
+    "ㄳ": "ㄱㅅ", "ㄵ": "ㄴㅈ", "ㄶ": "ㄴㅎ", "ㄺ": "ㄹㄱ", "ㄻ": "ㄹㅁ",
+    "ㄼ": "ㄹㅂ", "ㄽ": "ㄹㅅ", "ㄾ": "ㄹㅌ", "ㄿ": "ㄹㅍ", "ㅀ": "ㄹㅎ", "ㅄ": "ㅂㅅ",
+}
+
+
+def prompt_to_flat_jamo(text: str) -> list:
+    """표기 → g2pk 발음형 → 평면 개별 자모 (AI Hub phones와 같은 표현).
+
+    phones 전사 관습에 맞춘다:
+      - 초성 무음 ㅇ(음가 없는 자리채움)은 제외. 받침 ㅇ(연구개 비음)은 유지.
+      - 겹받침은 개별 자모로 분해 (g2pk가 이미 단순화했으면 해당 없음).
+    task 3 감지율 정렬에서 phones_to_flat_jamo()와 짝으로 쓴다.
+    """
+    out = []
+    for t in decompose_text(to_pronunciation(text)):
+        if t.component == "char" or not t.jamo:
+            continue
+        if t.component == "choseong" and t.jamo == "ㅇ":
+            continue  # 무음 초성 ㅇ — phones는 전사하지 않음
+        out.extend(COMPOSITE_JONG.get(t.jamo, t.jamo))
+    return out
+
+
+def phones_to_flat_jamo(phones: str) -> list:
+    """phones 문자열 → 개별 자모 리스트 (spn 마커 제거)."""
+    return [c for c in phones if c not in SPN]
 
 # error_tag 분류 → 버킷
 SEGMENTAL = {"초성", "종성", "모음오류"}
