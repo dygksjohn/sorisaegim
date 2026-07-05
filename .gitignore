@@ -28,6 +28,10 @@ docs/demo/*.mp4
 # 런타임 데이터 전체 (DB·TTS 캐시·업로드 녹음)
 # data/aihub/ — AI Hub 데이터셋은 이용 약관상 재배포 금지: 반드시 이 폴더 아래 보관
 data/
+
+# AI Hub 원본 라벨을 재포장한 매니페스트 (재배포 금지 — 스크립트로 재생성 가능)
+# 집계 리포트(aihub_inventory.md)는 숫자뿐이라 추적 대상.
+experiments/results/aihub_manifest.csv
 *.db
 *.sqlite3
 uploads/
