@@ -27,7 +27,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from ml.aihub import iter_records, phones_to_flat_jamo
+from ml.aihub import iter_records, phones_to_flat_jamo, prompt_to_flat_jamo
 
 SPLITS_DIR = Path(__file__).parent.parent / "data" / "aihub" / "splits"
 VAL_END = 0.10   # [0,0.10) val
@@ -72,7 +72,9 @@ def build() -> dict:
             rec = {
                 "wav_path": r.wav_path.relative_to(
                     Path(__file__).parent.parent).as_posix(),
-                "label": " ".join(label),          # 공백 구분 자모 (CTC 타깃)
+                "label": " ".join(label),          # 공백 구분 자모 (CTC 타깃 = 실발화 phones)
+                # 제시어 기대 발음형 — Colab 평가(오탐/감지)가 g2pk 없이 돌도록 미리 계산
+                "expected": " ".join(prompt_to_flat_jamo(r.prompt)),
                 "prompt": r.prompt,
                 "user_id": r.user_id, "region": r.region,
                 "proficiency": r.proficiency,
