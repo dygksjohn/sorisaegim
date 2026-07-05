@@ -89,14 +89,19 @@
   → **전제가 바뀜**: 받침 실전 73%(합성 35% 반증), **정발음 오탐률 52%**(83%가 Whisper 오인식).
   미세조정 표적이 "받침 recall"에서 "Whisper 교체로 오탐 제거"로 재정의됨.
   종합: [aihub_detection_findings.md](../experiments/results/aihub_detection_findings.md). ⬆️ 상단 📌 참조.
-- [ ] **데이터셋 병합·분할** (3h): AI Hub(실발화 발음형 라벨) + 합성 v2(pass만) + 실사용 녹음.
-  - 분할 원칙: **화자(UserID) 단위 분리** (합성은 보이스 단위) + **1주차 인간 녹음 20건 = 테스트 전용**
-    (골드셋 — attempts 1~20도 학습 제외) + error_tags 평가셋은 학습과 화자 겹침 금지.
-  - 규모 목표: 학습 5~10h. AI Hub Sample로 부족하면 Zeroth-Korean(~51h, CC-BY) 보충.
-- [ ] **HF datasets 포맷 변환 + 로더 검증** (2h): Colab에서 스트리밍 가능한 형태(arrow/parquet)로 준비.
+- [x] **데이터셋 병합·분할** (3h): `ml/dataset.py` — AI Hub phones를 화자(UserID) 단위 분할.
+  → **train 16,813(화자 7,542) / val 2,054 / test 2,039, 화자 누출 0건**(md5 안정 해시).
+  test 안에 평가 프로토콜 2종: **eval_fp 1,517**(정발음 → 오탐률 before 52% 측정) /
+  **eval_det 522**(오류 → 감지 측정). 골드셋(1주차 20건)은 AI Hub와 화자 무관해 자동 격리.
+  라벨 = phones 정본(공백구분 자모, CTC 타깃). 합성 v2·실사용은 증강 후보(도메인 상이해 보조).
+- [x] **CTC 데이터 로컬 검증** (2h): `experiments/verify_ctc_data.py` + `ml.dataset.build_vocab`.
+  → vocab **39종**(자모 37+PAD/UNK), val/test 미등록 **0**, 오디오 디코딩 실패 0,
+  CTC 길이 위반 0(프레임/라벨 여유 3.1배), 라벨 왕복 300/300. **Colab 투입 준비 완료.**
+  결과: [ctc_data_verify.md](../experiments/results/ctc_data_verify.md).
 
 ### 완료 기준
-- train/val/test 매니페스트가 존재하고, 테스트셋에 학습 화자가 없음을 스크립트로 검증했다.
+- [x] train/val/test 매니페스트 존재 + 테스트셋에 학습 화자 없음 스크립트 검증(누출 0건).
+- [x] CTC vocab이 평가셋 자모를 전부 커버(미등록 0), 오디오·길이·왕복 검증 통과.
 
 ### 결정 포인트
 | 상황 | 결정 |
