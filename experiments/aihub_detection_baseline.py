@@ -37,39 +37,110 @@ COMP_KO = {"choseong": "초성", "jungseong": "중성", "jongseong": "받침"}
 SYNTH_BASELINE = {"choseong": 67, "jungseong": 63, "jongseong": 35}  # 과제 D
 
 
+def _balance_by_region(recs, per):
+    """권역 라운드로빈으로 per개 결정적 선택."""
+    by_region = defaultdict(list)
+    for r in sorted(recs, key=lambda r: (r.region, r.user_id, r.prompt)):
+        by_region[r.region].append(r)
+    picked, ri, regions = [], 0, sorted(by_region)
+    while len(picked) < per and any(by_region.values()):
+        reg = regions[ri % len(regions)]
+        if by_region[reg]:
+            picked.append(by_region[reg].pop(0))
+        ri += 1
+    return picked
+
+
 def collect_samples(per: int):
     """성분별 단일-분절-오류 레코드를 권역 균형 있게 per개씩."""
-    buckets = defaultdict(list)  # component -> [record]
+    buckets = defaultdict(list)
     for r in iter_records():
         if r.wav_path is None:
             continue
         seg = [t for t in r.error_tags if t["component"]]
         if len(seg) != 1:
             continue  # 단일 분절 오류만 (깨끗한 귀속)
-        comp = seg[0]["component"]
-        buckets[comp].append(r)
-    # 권역 균형: 라운드로빈으로 per개 선택 (결정적 — 정렬 후 stride)
-    chosen = {}
-    for comp in COMPONENTS:
-        recs = sorted(buckets[comp], key=lambda r: (r.region, r.user_id, r.prompt))
-        by_region = defaultdict(list)
-        for r in recs:
-            by_region[r.region].append(r)
-        picked, ri = [], 0
-        regions = sorted(by_region)
-        while len(picked) < per and any(by_region.values()):
-            reg = regions[ri % len(regions)]
-            if by_region[reg]:
-                picked.append(by_region[reg].pop(0))
-            ri += 1
-        chosen[comp] = picked
-    return chosen
+        buckets[seg[0]["component"]].append(r)
+    return {comp: _balance_by_region(buckets[comp], per) for comp in COMPONENTS}
+
+
+def collect_phon_rule_and_control(per: int):
+    """phon_rule 단일 태그(분절 태그 없음) 레코드 + 정발음 대조군."""
+    phon, control = [], []
+    for r in iter_records():
+        if r.wav_path is None:
+            continue
+        seg = [t for t in r.error_tags if t["component"]]
+        rule = [t for t in r.error_tags if t["bucket"] == "phon_rule"]
+        if not r.error_tags:
+            control.append(r)                       # 정발음 (오탐률 대조군)
+        elif len(r.error_tags) == 1 and rule and not seg:
+            phon.append(r)                          # 단일 음운규칙 오류
+    return _balance_by_region(phon, per), _balance_by_region(control, per)
+
+
+def run_phon_rule(per: int) -> None:
+    """작업 3b: phon_rule 감지율 + 정발음 오탐률 대조. 감지=엔진이 오류 1개라도 플래그."""
+    phon, control = collect_phon_rule_and_control(per)
+    print(f"표본: phon_rule {len(phon)}, 정발음 대조 {len(control)}", flush=True)
+    rule_by = Counter()  # 규칙별 감지
+    rule_tot = Counter()
+    phon_flag = ctrl_flag = 0
+    misses = []
+    t0, n = time.perf_counter(), 0
+    for r in phon:
+        stt_text = stt.transcribe(str(r.wav_path))["text"]
+        res = compare(r.prompt, stt_text)
+        flagged = bool(res["errors"])
+        phon_flag += int(flagged)
+        tag = r.error_tags[0]["tag"]
+        rule_tot[tag] += 1
+        rule_by[tag] += int(flagged)
+        if not flagged and len(misses) < 12:
+            misses.append((tag, r.prompt, stt_text, res["score"]))
+        n += 1
+        if n % 25 == 0:
+            print(f"  phon {n} ({time.perf_counter()-t0:.0f}s)", flush=True)
+    for r in control:
+        stt_text = stt.transcribe(str(r.wav_path))["text"]
+        res = compare(r.prompt, stt_text)
+        ctrl_flag += int(bool(res["errors"]))
+        n += 1
+        if n % 25 == 0:
+            print(f"  +ctrl {n} ({time.perf_counter()-t0:.0f}s)", flush=True)
+
+    pf = phon_flag / len(phon) * 100
+    cf = ctrl_flag / len(control) * 100
+    lines = ["# phon_rule(음운규칙) 감지율 + 오탐 대조 — 작업 3b\n"]
+    lines.append("> 감지 = 엔진이 오류 1개라도 플래그(규칙 위반은 정답발음과의 괴리로 나타남). "
+                 "정발음 대조군의 플래그율이 오탐(false positive) 기준선.\n")
+    lines.append("## 핵심\n")
+    lines.append(f"- **phon_rule 감지율: {phon_flag}/{len(phon)} = {pf:.0f}%**")
+    lines.append(f"- **정발음 오탐률: {ctrl_flag}/{len(control)} = {cf:.0f}%** (대조군)")
+    lines.append(f"- **순감지 신호(감지−오탐): {pf-cf:+.0f}%p**\n")
+    lines.append("## 규칙별 감지율\n| 규칙 | 표본 | 감지 | 감지율 |\n|---|---|---|---|")
+    for tag, tot in rule_tot.most_common():
+        lines.append(f"| {tag} | {tot} | {rule_by[tag]} | {rule_by[tag]/tot*100:.0f}% |")
+    lines.append("\n## 미감지 예시 (Whisper 정규화로 오류 소실)\n")
+    for tag, prompt, stt_text, score in misses:
+        lines.append(f"- [{tag}] **{prompt}** → `{stt_text}` (점수 {score})")
+    lines.append(f"\n---\n총 {n}건, {time.perf_counter()-t0:.0f}s.\n")
+    lines.append("**판정**: phon_rule 순감지 신호가 분절음(작업 3의 62~81%)보다 뚜렷이 낮으면, "
+                 "그 격차가 wav2vec2 조준 검사의 정당한 표적이자 미세조정 before 지표다.")
+    (RESULTS / "aihub_detection_phon_rule.md").write_text("\n".join(lines), encoding="utf-8")
+    print(f"\nphon_rule 감지 {pf:.0f}% / 정발음 오탐 {cf:.0f}% / 순신호 {pf-cf:+.0f}%p")
+    print(f"→ {RESULTS / 'aihub_detection_phon_rule.md'}")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--per", type=int, default=120, help="성분별 표본 수")
+    ap.add_argument("--mode", choices=["segmental", "phon_rule"], default="segmental")
     args = ap.parse_args()
+
+    if args.mode == "phon_rule":
+        run_phon_rule(args.per)
+        return
 
     chosen = collect_samples(args.per)
     print("표본:", {COMP_KO[c]: len(v) for c, v in chosen.items()}, flush=True)
