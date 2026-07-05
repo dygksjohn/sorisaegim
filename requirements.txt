@@ -10,3 +10,12 @@ phonemizer  # espeak IPA 모델용 (네이티브 espeak-ng 별도 필요 — 보
 # 발음형 변환 (2주차부터 필수) — Windows 설치 절차는 experiments\README.md '알려진 이슈' 참고
 # (MSVC C++ 워크로드 + C:\mecab 의 mecab-ko-msvc + site-packages에 libmecab.dll 복사 필요)
 g2pk
+
+# 4주차 — 웹 서버 (API + 정적 파일 + 업로드 폼 처리)
+fastapi
+uvicorn
+python-multipart
+
+# 7주차 — ML (오류 예측 모델 학습·추천)
+scikit-learn
+joblib

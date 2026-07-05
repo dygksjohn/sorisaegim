@@ -26,6 +26,7 @@ experiments/recordings/*.ogg
 docs/demo/*.mp4
 
 # 런타임 데이터 전체 (DB·TTS 캐시·업로드 녹음)
+# data/aihub/ — AI Hub 데이터셋은 이용 약관상 재배포 금지: 반드시 이 폴더 아래 보관
 data/
 *.db
 *.sqlite3

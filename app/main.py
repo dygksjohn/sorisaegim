@@ -114,10 +114,13 @@ async def create_attempt(
     try:
         samples = load_audio(str(audio_path))
     except Exception:
+        audio_path.unlink(missing_ok=True)  # 거부된 업로드는 보관하지 않음 (고아 파일 방지)
         return error_response(400, "audio_decode_failed", "오디오 형식을 해석할 수 없습니다")
     if len(samples) / SAMPLE_RATE < MIN_AUDIO_SEC:
+        audio_path.unlink(missing_ok=True)
         return error_response(400, "audio_too_short", "1초 이상 녹음해 주세요")
     if float(abs(samples).max()) < SILENCE_PEAK_THRESHOLD:
+        audio_path.unlink(missing_ok=True)
         return error_response(
             400, "audio_silent",
             "소리가 녹음되지 않았습니다. 마이크 연결과 입력 장치 설정을 확인해 주세요",
@@ -137,7 +140,8 @@ async def create_attempt(
             " score, errors_json, created_at, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sentence_id,
-                str(audio_path),
+                # 프로젝트 루트 기준 상대 경로 — 폴더 이동/이름 변경에도 참조가 깨지지 않게
+                f"data/uploads/{audio_path.name}",
                 stt_result["engine"],
                 stt_result["text"],
                 analysis["score"],

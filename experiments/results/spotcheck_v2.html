@@ -1,0 +1,240 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<title>합성 v2 스팟체크 (20건)</title>
+<style>
+body{font-family:'Malgun Gothic',sans-serif;margin:2em;max-width:1300px}
+table{border-collapse:collapse;width:100%}
+td,th{border:1px solid #ccc;padding:6px 8px;font-size:14px;vertical-align:top}
+th{background:#f0f0f0} audio{width:220px}
+.guide{background:#fffbe6;border:1px solid #e0d8a0;padding:10px 14px;border-radius:6px}
+</style></head><body>
+<h2>합성 v2 스팟체크 — 라벨·오디오 일치 확인 (받침5·초성5·중성5·정상5)</h2>
+<div class="guide">
+판정 기준은 발음의 옳고 그름이 아니라 <b>"오디오가 '들려야 할 텍스트'대로 들리는가"</b>입니다.<br>
+· perturbed: 변형 텍스트대로 들리면 OK. <b>원문처럼 들리면 '문제'</b> (라벨 오류 — TTS가 오류를 안 냈다는 뜻)<br>
+· normal: 원문 그대로 자연스러우면 OK.<br>
+'문제'가 나오면 행 번호를 알려주세요 — 해당 혼동 쌍을 v2 분포에서 조정합니다.
+</div>
+<table>
+<tr><th>#</th><th>오디오</th><th>원문</th><th>들려야 할 텍스트</th><th>주입 오류</th><th>판정 기준</th><th>Whisper 인식</th><th>판정</th></tr>
+
+<tr>
+  <td>1</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174429_252859_s20.mp3"></audio><br>
+      <small>#553 · HyunsuMultilingualNeural · rate -5%</small></td>
+  <td>앞마당에 눈이 쌓였다</td>
+  <td>앞마당에 누이 쌓였다</td>
+  <td>받침 <b>ㄴ → (삭제)</b> (음절: 앞마당에 누이 쌓였다 6번째 글자)</td>
+  <td>「<b>앞마당에 누이 쌓였다</b>」로 들리면 OK</td>
+  <td><small>앞마당의 노이사였다</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173846_795765_s18.mp3"></audio><br>
+      <small>#448 · InJoonNeural · rate -5%</small></td>
+  <td>약속 장소로 걸어갔다</td>
+  <td>약속 장소로 걸어가다</td>
+  <td>받침 <b>ㅆ → (삭제)</b> (음절: 약속 장소로 걸어가다 10번째 글자)</td>
+  <td>「<b>약속 장소로 걸어가다</b>」로 들리면 OK</td>
+  <td><small>약속장소로 걸어가다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174451_940772_s22.mp3"></audio><br>
+      <small>#560 · HyunsuMultilingualNeural · rate -5%</small></td>
+  <td>밥맛이 정말 좋다</td>
+  <td>밥맛이 정말 조다</td>
+  <td>받침 <b>ㅎ → (삭제)</b> (음절: 밥맛이 정말 조다 8번째 글자)</td>
+  <td>「<b>밥맛이 정말 조다</b>」로 들리면 OK</td>
+  <td><small>밥맛이 정말 좋다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173658_816627_s4.mp3"></audio><br>
+      <small>#407 · InJoonNeural · rate +0%</small></td>
+  <td>좋다고 말했다</td>
+  <td>좋다고 말해다</td>
+  <td>받침 <b>ㅆ → (삭제)</b> (음절: 좋다고 말해다 6번째 글자)</td>
+  <td>「<b>좋다고 말해다</b>」로 들리면 OK</td>
+  <td><small>좋다고 말해다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173512_098854_s24.mp3"></audio><br>
+      <small>#367 · SunHiNeural · rate +10%</small></td>
+  <td>입학을 축하한다</td>
+  <td>입학을 춥하한다</td>
+  <td>받침 <b>ㄱ → ㅂ</b> (음절: 입학을 춥하한다 5번째 글자)</td>
+  <td>「<b>입학을 춥하한다</b>」로 들리면 OK</td>
+  <td><small>입학을 추파한다</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174002_800649_s27.mp3"></audio><br>
+      <small>#475 · InJoonNeural · rate -5%</small></td>
+  <td>낮과 밤이 다르다</td>
+  <td>낮과 밤이 타르다</td>
+  <td>초성 <b>ㄷ → ㅌ</b> (음절: 낮과 밤이 타르다 7번째 글자)</td>
+  <td>「<b>낮과 밤이 타르다</b>」로 들리면 OK</td>
+  <td><small>낙과 밤이 타르다</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174311_469272_s12.mp3"></audio><br>
+      <small>#530 · HyunsuMultilingualNeural · rate +10%</small></td>
+  <td>구름이 하늘에 떠 있다</td>
+  <td>구름이 하늘에 더 있다</td>
+  <td>초성 <b>ㄸ → ㄷ</b> (음절: 구름이 하늘에 더 있다 9번째 글자)</td>
+  <td>「<b>구름이 하늘에 더 있다</b>」로 들리면 OK</td>
+  <td><small>구름이 하늘에 더 있다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173304_134686_s13.mp3"></audio><br>
+      <small>#334 · SunHiNeural · rate +5%</small></td>
+  <td>꽃이 활짝 피었다</td>
+  <td>곷이 활짝 피었다</td>
+  <td>초성 <b>ㄲ → ㄱ</b> (음절: 곷이 활짝 피었다 1번째 글자)</td>
+  <td>「<b>곷이 활짝 피었다</b>」로 들리면 OK</td>
+  <td><small>고치 활짝 피웠다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173751_804410_s11.mp3"></audio><br>
+      <small>#427 · InJoonNeural · rate +5%</small></td>
+  <td>웃음이 절로 나온다</td>
+  <td>웃음이 절로 나온타</td>
+  <td>초성 <b>ㄷ → ㅌ</b> (음절: 웃음이 절로 나온타 10번째 글자)</td>
+  <td>「<b>웃음이 절로 나온타</b>」로 들리면 OK</td>
+  <td><small>웃음이 절로 나온다</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173428_904138_s20.mp3"></audio><br>
+      <small>#355 · SunHiNeural · rate -10%</small></td>
+  <td>앞마당에 눈이 쌓였다</td>
+  <td>앞마탕에 눈이 쌓였다</td>
+  <td>초성 <b>ㄷ → ㅌ</b> (음절: 앞마탕에 눈이 쌓였다 3번째 글자)</td>
+  <td>「<b>앞마탕에 눈이 쌓였다</b>」로 들리면 OK</td>
+  <td><small>암마탕에 눈이 쌓였다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173655_911446_s4.mp3"></audio><br>
+      <small>#406 · InJoonNeural · rate -10%</small></td>
+  <td>좋다고 말했다</td>
+  <td>좋다거 말했다</td>
+  <td>중성 <b>ㅗ → ㅓ</b> (음절: 좋다거 말했다 3번째 글자)</td>
+  <td>「<b>좋다거 말했다</b>」로 들리면 OK</td>
+  <td><small>좋다고 말했다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174442_711494_s21.mp3"></audio><br>
+      <small>#557 · HyunsuMultilingualNeural · rate +0%</small></td>
+  <td>겉모습만 보면 모른다</td>
+  <td>겉모습만 보면 머른다</td>
+  <td>중성 <b>ㅗ → ㅓ</b> (음절: 겉모습만 보면 머른다 9번째 글자)</td>
+  <td>「<b>겉모습만 보면 머른다</b>」로 들리면 OK</td>
+  <td><small>겉모습만 보면 멀은다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173932_335954_s23.mp3"></audio><br>
+      <small>#464 · InJoonNeural · rate -5%</small></td>
+  <td>축하 인사를 건넸다</td>
+  <td>축하 인사룰 건넸다</td>
+  <td>중성 <b>ㅡ → ㅜ</b> (음절: 축하 인사룰 건넸다 6번째 글자)</td>
+  <td>「<b>축하 인사룰 건넸다</b>」로 들리면 OK</td>
+  <td><small>축하 인사를 건냈다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173632_681704_s1.mp3"></audio><br>
+      <small>#397 · InJoonNeural · rate +5%</small></td>
+  <td>국물이 정말 시원하다</td>
+  <td>국믈이 정말 시원하다</td>
+  <td>중성 <b>ㅜ → ㅡ</b> (음절: 국믈이 정말 시원하다 2번째 글자)</td>
+  <td>「<b>국믈이 정말 시원하다</b>」로 들리면 OK</td>
+  <td><small>국물이 정말 시원하다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173712_553895_s6.mp3"></audio><br>
+      <small>#412 · InJoonNeural · rate +10%</small></td>
+  <td>옷이 예쁘다</td>
+  <td>엇이 예쁘다</td>
+  <td>중성 <b>ㅗ → ㅓ</b> (음절: 엇이 예쁘다 1번째 글자)</td>
+  <td>「<b>엇이 예쁘다</b>」로 들리면 OK</td>
+  <td><small>어디 예쁘다!</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174506_868578_s24.mp3"></audio><br>
+      <small>#564 · HyunsuMultilingualNeural · rate +10%</small></td>
+  <td>입학을 축하한다</td>
+  <td>입학을 축하한다</td>
+  <td>변형 없음 (정상)</td>
+  <td>「<b>입학을 축하한다</b>」로 자연스럽게 들리면 OK</td>
+  <td><small>입학을 축하한다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173251_745738_s12.mp3"></audio><br>
+      <small>#330 · SunHiNeural · rate +5%</small></td>
+  <td>구름이 하늘에 떠 있다</td>
+  <td>구름이 하늘에 떠 있다</td>
+  <td>변형 없음 (정상)</td>
+  <td>「<b>구름이 하늘에 떠 있다</b>」로 자연스럽게 들리면 OK</td>
+  <td><small>구름이 하늘에 떠 있다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174334_564574_s15.mp3"></audio><br>
+      <small>#537 · HyunsuMultilingualNeural · rate +5%</small></td>
+  <td>숙제를 먼저 끝냈다</td>
+  <td>숙제를 먼저 끝냈다</td>
+  <td>변형 없음 (정상)</td>
+  <td>「<b>숙제를 먼저 끝냈다</b>」로 자연스럽게 들리면 OK</td>
+  <td><small>숙제를 먼저 끝났다.</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_174125_682347_s2.mp3"></audio><br>
+      <small>#498 · HyunsuMultilingualNeural · rate -5%</small></td>
+  <td>밥을 먹었다</td>
+  <td>밥을 먹었다</td>
+  <td>변형 없음 (정상)</td>
+  <td>「<b>밥을 먹었다</b>」로 자연스럽게 들리면 OK</td>
+  <td><small>밥을 먹었다</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><audio controls preload="none" src="../../data/uploads/att_20260705_173126_267553_s2.mp3"></audio><br>
+      <small>#300 · SunHiNeural · rate -5%</small></td>
+  <td>밥을 먹었다</td>
+  <td>밥을 먹었다</td>
+  <td>변형 없음 (정상)</td>
+  <td>「<b>밥을 먹었다</b>」로 자연스럽게 들리면 OK</td>
+  <td><small>밥을 먹었다</small></td>
+  <td><input type="checkbox"> OK / <input type="checkbox"> 문제</td>
+</tr>
+</table></body></html>
