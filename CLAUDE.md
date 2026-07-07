@@ -14,9 +14,15 @@ fine-tuning 경험) 진행 중.
 
 ## 명령어 규약 (중요)
 
-- **Windows CMD 문법을 기준으로 제시**한다 (사용자는 CMD·git bash 사용). 경로는 백슬래시(`\`),
-  파이썬은 `.venv\Scripts\python.exe`, 환경변수는 `%VAR%`.
-- 저장소 전체가 이 규약으로 일관돼 있다 (각 스크립트 docstring의 "실행:" 예시 참고).
+사용자는 **CMD·git bash 둘 다** 사용. 경로 구분자를 상황에 맞게 구분한다:
+
+- **git에 넘기는 파일 경로는 `/`(슬래시)로 쓴다.** git이 셸과 무관하게 처리하므로 CMD·git bash
+  양쪽에서 동작한다. 예: `git add ml/dataset.py docs/log.md`. (`\`는 git bash에서 이스케이프로 깨진다.)
+- **venv 파이썬·실행 파일은 셸에 맞게.** CMD는 명령 경로 맨 앞의 `/`를 스위치로 오해하므로 `\` 필요:
+  - CMD: `.venv\Scripts\python.exe experiments\xxx.py`
+  - git bash: `.venv/Scripts/python.exe experiments/xxx.py`
+  - 스크립트 docstring의 "실행:" 예시는 CMD 기준(`\`)으로 통일돼 있다.
+- 환경변수는 CMD `%VAR%`, git bash `$VAR`. PowerShell 전용 cmdlet은 별도 요청 없으면 쓰지 않는다.
 - 예외: `ml/finetune_wav2vec2_colab.ipynb`의 셸 명령(`!unzip` 등)은 Colab(리눅스)에서 도는
   것이라 bash가 맞다 — 로컬 명령과 혼동 금지.
 
