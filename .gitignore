@@ -35,3 +35,6 @@ experiments/results/aihub_manifest.csv
 *.db
 *.sqlite3
 uploads/
+
+
+*.zip
