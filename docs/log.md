@@ -3,6 +3,12 @@
 > 운영 원칙: 주당 3줄 — 한 것 / 막힌 것 / 다음. 회고 글 재료.
 > 8주차로 본 프로젝트 완료. 이하 **후속 +N주차**는 ML 고도화(이력서용 fine-tuning 경험) 확장 — 계획 `docs/후속계획_ML고도화_v1.md`.
 
+## 후속 +3주차 (2026-07-08 ~) — wav2vec2 미세조정 + 최종 지표
+
+- **한 것**: Colab T4에서 발음형 자모 CTC 인식기 미세조정(`ml/finetune_wav2vec2_colab.ipynb`) — kresnik 베이스 + 헤드 자모 39종 교체, AI Hub phones 정본 학습. **val CER 14.4%→3.9%(5 epoch)**. **핵심 성과: 정발음 오탐률 실질 52%→6%** — 거리≥1 오탐 20%를 phones 정본으로 분해하니 순수 모델오탐 6% + 화자 실제차이 14%(연음 등 실발화를 정확히 전사한 것). 자모-검출 가능한 분절음 오류 **99% 회수**. 결과: `experiments/results/finetune_results.md`. 재정의 표적(오탐 제거) 달성.
+- **막힌 것**: Colab 실전 이슈 연속 — ① 한글 폴더명(`원천데이터`) zip을 `unzip`이 다른 유니코드로 풀어 경로 불일치(→ Python zipfile 추출로 해결). ② transformers 5.x API 변화(`tokenizer=`→`processing_class=`, `group_by_length` 제거). ③ T4 OOM(→ 배치 2·누적 8·긴 클립 12s 컷). ④ 무료 GPU 한도로 중단(→ 다른 계정 드라이브 공유 + 체크포인트 재개). ⑤ 평가 시 학습 체크포인트 대신 랜덤 헤드 로드로 잡음 출력(→ checkpoint에서 로드). 노트북·`docs/colab_실행가이드.md`에 전부 반영.
+- **다음**: 자모-사전형 비교의 감지 상한(27%)이 다음 병목 — 음향 세밀 채점 검토(백로그). ml_report v2로 전체 서사 정리 + README 갱신.
+
 ## 후속 +2주차 (2026-07-05 ~) — 학습 데이터셋 구축 + 표적 재정의
 
 - **한 것**: AI Hub "교육용 외국인 한국어 음성" 4종(경량)을 실발화 학습 데이터로 편입. ① 파서·인벤토리(`ml/aihub.py`·`experiments/aihub_inventory.py`): pronunciation 라벨 **20,906건/화자 9,402**, 오류 3버킷 분류, 받침 오류 실발화 1,790건(합성 20건의 90배). ② 라벨 정합성 검증: phones↔g2pk **완전일치 87.8%·자모오류율 2.63%** → 학습 타깃은 phones 정본 확정. ③ 화자(UserID) 단위 분할(`ml/dataset.py`): train 16,813/val 2,054/test 2,039, **누출 0건**, test에 평가셋 2종(eval_fp 1,517·eval_det 522) + CTC vocab 39종·데이터 검증(미등록 0·길이위반 0). ④ Colab 미세조정 노트북(`ml/finetune_wav2vec2_colab.ipynb`).

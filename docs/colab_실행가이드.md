@@ -47,7 +47,9 @@ DRIVE_ROOT   = '/content/sorisaegim'   # zip 푸는 로컬 경로 — 수정 불
 ```
 
 - 드라이브 마운트 팝업이 뜨면 계정 인증.
-- 다음 셀(압축 해제)이 zip을 `/content`에 푼다(~1–2분). "splits OK / wav 예시 존재: True"가 나오면 성공.
+- 다음 셀(압축 해제)이 zip을 `/content`에 **Python zipfile로** 푼다(~1–2분). "splits OK + wav 경로 일치"가
+  나오면 성공. (리눅스 `unzip`은 한글 폴더명 `원천데이터`를 다른 유니코드 형태로 풀어 경로가 어긋난다 —
+  노트북은 Python으로 풀어 이를 피한다. 옛 노트북을 쓰다 이 에러가 나면 아래 "자주 나는 문제" 참고.)
 
 ## Step 5 — 위에서부터 순서대로 실행
 
@@ -92,7 +94,8 @@ DRIVE_ROOT   = '/content/sorisaegim'   # zip 푸는 로컬 경로 — 수정 불
 | 증상 | 대처 |
 |---|---|
 | `assert zip/경로 확인` 실패 | `ZIP_ON_DRIVE` 경로 오타, 또는 업로드 미완료 |
-| wav 예시 존재: False | zip이 덜 풀림 — 압축 해제 셀 재실행, 드라이브 용량 확인 |
+| **`No such file or directory` (wav) — 추출은 20906개 다 됐는데 특정 경로만 없음** | 리눅스 `unzip`이 한글 폴더명을 다른 유니코드로 풀어 경로 불일치. **Python으로 재추출**: `import shutil,zipfile,os; shutil.rmtree(os.path.join(DRIVE_ROOT,'data'),ignore_errors=True); zipfile.ZipFile('/content/pkg.zip').extractall(DRIVE_ROOT)` 후 셀 5부터 재실행 |
+| wav 경로 불일치 assert | 위와 동일 — Python zipfile로 재추출 |
 | CUDA out of memory | batch size↓ + grad accum↑ (Step 6) |
 | CER이 안 내려가고 발산 | 셀 9 `learning_rate` 3e-4→1e-4, 재학습 (2차 학습 힌트, 셀 12) |
 | 세션 자꾸 끊김 | 체크포인트 재개(Step 7). 빈번하면 Colab Pro 검토 |
