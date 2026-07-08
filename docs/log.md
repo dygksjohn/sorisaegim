@@ -3,6 +3,12 @@
 > 운영 원칙: 주당 3줄 — 한 것 / 막힌 것 / 다음. 회고 글 재료.
 > 8주차로 본 프로젝트 완료. 이하 **후속 +N주차**는 ML 고도화(이력서용 fine-tuning 경험) 확장 — 계획 `docs/후속계획_ML고도화_v1.md`.
 
+## 후속 +5주차 (2026-07-08 ~) — 발음형 인식기 서비스 통합 + 데모
+
+- **한 것**: 미세조정 모델을 로컬 FastAPI에 통합(재정의 표적대로 "받침 조준 하이브리드"가 아니라 **Whisper 대체 경로**). `engine/phonetic.py`(모델 평면 자모 vs 제시어 기대발음형 정렬 → 점수·성분별 오류, `compare()`와 동일 응답 형태) + 단위 테스트 11건, `stt/phone.py`(미세조정 wav2vec2 지연로더·`available()`), `app/main.py` `/attempts`에 `engine=whisper|phone` 플래그(모델 없으면 503, 기본 whisper 하위호환), `experiments/phone_demo.py`(1주차 20건 Whisper vs wav2vec2 오탐 비교). **전체 테스트 43개 통과.** 배치·데모 절차는 `docs/colab_실행가이드.md` Step 9.
+- **막힌 것**: 없음. 모델 자체는 로컬에 없어 데모는 사람 몫(Colab export→`data/models/w2v2-jamo/` 배치). 발음형 비교는 모델 없이 자모 문자열로 전수 단위테스트 완료.
+- **다음(사람 몫)**: 모델 export·배치 → `phone_demo.py` 실행(오탐 비교 재현) → 데모 영상(정발음을 Whisper는 헛오류·wav2vec2는 100점 주는 컷).
+
 ## 후속 +3주차 (2026-07-08 ~) — wav2vec2 미세조정 + 최종 지표
 
 - **한 것**: Colab T4에서 발음형 자모 CTC 인식기 미세조정(`ml/finetune_wav2vec2_colab.ipynb`) — kresnik 베이스 + 헤드 자모 39종 교체, AI Hub phones 정본 학습. **val CER 14.4%→3.9%(5 epoch)**. **핵심 성과: 정발음 오탐률 실질 52%→6%** — 거리≥1 오탐 20%를 phones 정본으로 분해하니 순수 모델오탐 6% + 화자 실제차이 14%(연음 등 실발화를 정확히 전사한 것). 자모-검출 가능한 분절음 오류 **99% 회수**. 결과: `experiments/results/finetune_results.md`. 재정의 표적(오탐 제거) 달성.

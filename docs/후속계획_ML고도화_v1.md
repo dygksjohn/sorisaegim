@@ -160,6 +160,17 @@
 - 브라우저에서 받침 오류 문장을 읽으면 조준 검사 결과가 하이라이트에 반영된다.
 - **시스템 수준 before/after**: 합성 v2 주입 오류에 대한 전체 파이프라인 감지율 재측정 (ml_report 과제 D 표의 v2).
 
+> **✅ 완료 (2026-07-08) — 표적 재정의로 설계 변경**: "받침 조준 검사(하이브리드)"가 아니라
+> **발음형 인식기를 별도 STT 경로로 통합**했다(재정의 표적 = Whisper 교체). 산출:
+> - `engine/phonetic.py`: 모델 평면 자모 출력 vs 제시어 기대 발음형 정렬 → 점수·성분별 오류
+>   (초성 ㅇ 제외·겹받침 분해, g2p 재적용 없음). `compare()`와 동일 응답 형태라 프론트 재사용.
+>   단위 테스트 11건(`tests/test_phonetic.py`).
+> - `stt/phone.py`: 미세조정 wav2vec2 로더(지연 임포트, `PHONE_MODEL_DIR`, `available()`).
+> - `app/main.py`: `/attempts`에 `engine=whisper|phone` 플래그. 모델 없으면 503. 기본 whisper(하위호환).
+> - `experiments/phone_demo.py`: 1주차 20건 Whisper vs wav2vec2 오탐 비교 데모.
+> - 모델 배치·데모 절차: [colab_실행가이드.md](colab_실행가이드.md) Step 9. **전체 테스트 43개 통과.**
+> 남은 것(사람 몫): Colab에서 모델 export → `data/models/w2v2-jamo/` 배치 → 데모 실행/영상.
+
 ---
 
 ## +6주차 — 문서화 + 선택 과제 (≈10h)

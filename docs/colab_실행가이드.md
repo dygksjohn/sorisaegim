@@ -107,3 +107,55 @@ DRIVE_ROOT   = '/content/sorisaegim'   # zip 푸는 로컬 경로 — 수정 불
 - **오탐률 ~12% 근처면 이론 상한 근접** — 그 이상은 플래그 임계 완화(편집거리≥2, 셀 12)나
   Zeroth-Korean 정발음 보강이 다음 카드.
 - CER은 좋은데 오탐이 안 줄면 → 플래그 규칙 문제(엔진 측), 셀 12 힌트 참고.
+
+---
+
+## Step 9 — 로컬 통합·데모 (모델 내보내기)
+
+학습한 모델을 로컬 서비스(FastAPI)에 붙여 데모까지. 엔진은 이미 `engine=phone` 경로로
+통합돼 있다 — 모델 파일만 로컬에 두면 된다.
+
+### 9-1. Colab에서 모델 온전히 저장
+
+체크포인트 폴더에는 모델 가중치만 있고 **프로세서(vocab·토크나이저)가 없다.** 최선 체크포인트를
+로드한 뒤 모델+프로세서를 한 폴더로 저장한다 (Colab 새 셀):
+
+```python
+import glob, os
+from transformers import Wav2Vec2ForCTC
+ckpt = sorted(glob.glob(os.path.join(OUTPUT_DIR, 'checkpoint-*')))[-1]
+model = Wav2Vec2ForCTC.from_pretrained(ckpt)
+EXPORT = '/content/drive/MyDrive/w2v2-jamo-export'
+model.save_pretrained(EXPORT)
+processor.save_pretrained(EXPORT)   # vocab.json·토크나이저·전처리기까지
+print('내보내기 완료:', os.listdir(EXPORT))   # config.json, model.safetensors, vocab.json ...
+```
+
+### 9-2. 드라이브 → 로컬 PC
+
+`MyDrive/w2v2-jamo-export/` 폴더(~1.2GB)를 통째로 내려받아 프로젝트의
+**`data\models\w2v2-jamo\`** 에 넣는다. (구글 드라이브 웹에서 폴더 다운로드 → 압축 해제,
+또는 Google Drive 데스크톱 동기화). 최종 형태:
+
+```
+data\models\w2v2-jamo\
+  config.json  model.safetensors  vocab.json
+  tokenizer_config.json  preprocessor_config.json  special_tokens_map.json
+```
+
+### 9-3. 데모 실행 (Whisper vs wav2vec2 오탐 비교)
+
+```cmd
+.venv\Scripts\python.exe experiments\phone_demo.py
+```
+1주차 녹음 20건에 두 엔진을 나란히 돌려 **정발음에서의 오탐 건수**를 비교한다
+(AI Hub 실측 52%→6%의 로컬 재현). 산출: `experiments\results\phone_demo.md`.
+
+### 9-4. 서버에서 사용
+
+서버 실행 후 `/attempts` 요청에 `engine=phone`을 넣으면 발음형 인식기로 채점한다
+(기본은 `whisper`). 모델이 없으면 503 `phone_model_missing`. CPU 추론이라 문장당 수 초.
+프론트에 엔진 토글을 붙이는 건 선택(백로그).
+
+> 데모 영상: 정발음을 읽었을 때 Whisper 경로는 헛오류를 하이라이트하지만 wav2vec2 경로는
+> 100점을 주는 장면이 핵심 컷 — 오탐 제거를 시각적으로 보여준다.

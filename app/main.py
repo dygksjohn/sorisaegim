@@ -18,8 +18,10 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 import stt
+import stt.phone as stt_phone
 import tts
 from engine import compare
+from engine.phonetic import compare_phonetic
 from .db import TTS_CACHE_DIR, UPLOADS_DIR, get_conn, init_db
 
 KST = timezone(timedelta(hours=9))
@@ -96,9 +98,17 @@ async def create_attempt(
     sentence_id: int = Form(...),
     audio: UploadFile = File(...),
     source: str = Form("user"),  # user(브라우저 실사용) | synth(합성 증강 스크립트)
+    engine: str = Form("whisper"),  # whisper(기본) | phone(미세조정 wav2vec2 발음형)
 ):
     if source not in ("user", "synth"):
         return error_response(400, "invalid_source")
+    if engine not in ("whisper", "phone"):
+        return error_response(400, "invalid_engine")
+    if engine == "phone" and not stt_phone.available():
+        return error_response(
+            503, "phone_model_missing",
+            "발음형 인식기 모델이 없습니다. data/models/w2v2-jamo/ 에 배치하세요 "
+            "(docs/colab_실행가이드.md).")
     sentence = _get_sentence(sentence_id)
     if sentence is None:
         return error_response(404, "sentence_not_found")
@@ -126,11 +136,19 @@ async def create_attempt(
             "소리가 녹음되지 않았습니다. 마이크 연결과 입력 장치 설정을 확인해 주세요",
         )
 
-    stt_result = stt.transcribe(samples)
-    if not stt_result["text"]:
-        return error_response(422, "stt_empty", "음성을 인식하지 못했습니다. 다시 녹음해 주세요")
-
-    analysis = compare(sentence["text"], stt_result["text"])
+    if engine == "phone":
+        # 발음형 인식기: 자모를 직접 출력 → g2p 재적용 없이 발음형 비교
+        phone_result = stt_phone.transcribe(samples)
+        if not phone_result["phones"]:
+            return error_response(422, "stt_empty", "음성을 인식하지 못했습니다. 다시 녹음해 주세요")
+        stt_result = {"engine": phone_result["engine"], "text": phone_result["phones"],
+                      "elapsed_ms": phone_result["elapsed_ms"]}
+        analysis = compare_phonetic(sentence["text"], phone_result["phones"])
+    else:
+        stt_result = stt.transcribe(samples)
+        if not stt_result["text"]:
+            return error_response(422, "stt_empty", "음성을 인식하지 못했습니다. 다시 녹음해 주세요")
+        analysis = compare(sentence["text"], stt_result["text"])
     created_at = datetime.now(KST).isoformat(timespec="seconds")
 
     conn = get_conn()
