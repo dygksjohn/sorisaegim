@@ -3,6 +3,12 @@
 > 운영 원칙: 주당 3줄 — 한 것 / 막힌 것 / 다음. 회고 글 재료.
 > 8주차로 본 프로젝트 완료. 이하 **후속 +N주차**는 ML 고도화(이력서용 fine-tuning 경험) 확장 — 계획 `docs/후속계획_ML고도화_v1.md`.
 
+## 배포 7단계 시작 (2026-08-03 ~) — 저장소 최신화·의존성 고정·로컬 재현
+
+- **한 것**: 컨테이너화 전 재현 가능한 기준선 확보. ① **기준 상태 확정**: HEAD `b2be82a`(정합성 수정: setup_venv.cmd 복구·torch 명시·handoff 문서 추적), Python 3.13.7(→ 베이스 `python:3.13-slim`), 테스트 43개 통과. ② **의존성 2단 고정**: `requirements.txt` 직접 의존을 `==`로 핀(실측 버전) + torch는 CPU 휠 인덱스 지정(GPU 휠로 이미지 붇는 것 방지), `requirements.lock.txt` 전체 스냅샷 95개. dry-run resolve 충돌 0. ③ **응답시간 기준선**(`experiments/bench_local.py` → `results/bench_local.md`): Whisper 경로 **콜드 로딩+첫 추론 4.61s / 웜 추론 평균 1.74s·p50 1.74s·최대 1.81s**(CPU, 1주차 정발음 5건, 서버 미경유). 자모 비교 엔진은 무시할 수준.
+- **막힌 것**: ① **프레시 `pip install -r requirements.txt`가 `python-mecab-ko==1.3.7` 휠 빌드에서 실패**(g2pk 네이티브 의존). handoff 3-3 확증 — 재현엔 네이티브 mecab + 빌드툴 필요(Windows: MSVC + C:\mecab, 리눅스: mecab 시스템 패키지). **이 목록이 7단계 Dockerfile `apt-get` 줄의 근거.** 핀 자체는 정확(dry-run 통과). ② **phone 경로 측정 보류** — 미세조정 모델이 로컬에 없어(handoff 3-1) `engine=phone` 503. 모델 배치 후 콜드/웜 측정 완결 예정.
+- **다음**: 모델 export·배치(`data/models/w2v2-jamo/`) → phone 콜드/웜 측정으로 기준선 완결 → Dockerfile 초안(단일 스테이지, mecab 시스템 패키지 포함). 완료 기준: 컨테이너에서 whisper·phone 양쪽 재현.
+
 ## 후속 +5주차 (2026-07-08 ~) — 발음형 인식기 서비스 통합 + 데모
 
 - **한 것**: 미세조정 모델을 로컬 FastAPI에 통합(재정의 표적대로 "받침 조준 하이브리드"가 아니라 **Whisper 대체 경로**). `engine/phonetic.py`(모델 평면 자모 vs 제시어 기대발음형 정렬 → 점수·성분별 오류, `compare()`와 동일 응답 형태) + 단위 테스트 11건, `stt/phone.py`(미세조정 wav2vec2 지연로더·`available()`), `app/main.py` `/attempts`에 `engine=whisper|phone` 플래그(모델 없으면 503, 기본 whisper 하위호환), `experiments/phone_demo.py`(1주차 20건 Whisper vs wav2vec2 오탐 비교). **전체 테스트 43개 통과.** 배치·데모 절차는 `docs/colab_실행가이드.md` Step 9.

@@ -1,26 +1,31 @@
-# 1주차 기술 검증용 의존성
-openai-whisper
-edge-tts
+# 소리새김 직접 의존 — 버전 고정(==). 실측 스냅샷은 requirements.lock.txt 참고.
+# 전이 의존까지 재현하려면 lock 파일 사용. 이 파일은 "직접 쓰는 것"만 핀한다.
+# torch는 CPU 휠로 고정 — GPU 휠이 잡히면 이미지가 수 GB 붇는다(배포 단계 고려).
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# 1주차 — 기술 검증 (STT/TTS)
+openai-whisper==20250625
+edge-tts==7.2.8
 
 # 2주차 — wav2vec2 검증 + 테스트
-transformers
-pytest
-phonemizer  # espeak IPA 모델용 (네이티브 espeak-ng 별도 필요 — 보류 중)
+transformers==5.13.0
+pytest==9.1.1
+phonemizer==3.3.0  # espeak IPA 모델용 (네이티브 espeak-ng 별도 필요 — 보류 중)
 
 # 발음형 변환 (2주차부터 필수) — Windows 설치 절차는 experiments\README.md '알려진 이슈' 참고
 # (MSVC C++ 워크로드 + C:\mecab 의 mecab-ko-msvc + site-packages에 libmecab.dll 복사 필요)
-g2pk
+g2pk==0.9.4
 
 # 4주차 — 웹 서버 (API + 정적 파일 + 업로드 폼 처리)
-fastapi
-uvicorn
-python-multipart
+fastapi==0.139.0
+uvicorn==0.50.0
+python-multipart==0.0.32
 
 # 7주차 — ML (오류 예측 모델 학습·추천)
-scikit-learn
-joblib
+scikit-learn==1.9.0
+joblib==1.5.3
+numpy==2.4.6
 
 # 후속 +5주차 — 발음형 인식기(미세조정 wav2vec2) 로컬 추론
-# transformers는 위(2주차)에 있음. torch는 stt/phone.py가 직접 import 한다
-# (openai-whisper 전이 의존이라 우연히 깔리지만, 직접 의존이므로 명시).
-torch
+# transformers는 위(2주차)에 있음. torch는 stt/phone.py가 직접 import 한다.
+torch==2.12.1
