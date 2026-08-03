@@ -19,3 +19,8 @@ python-multipart
 # 7주차 — ML (오류 예측 모델 학습·추천)
 scikit-learn
 joblib
+
+# 후속 +5주차 — 발음형 인식기(미세조정 wav2vec2) 로컬 추론
+# transformers는 위(2주차)에 있음. torch는 stt/phone.py가 직접 import 한다
+# (openai-whisper 전이 의존이라 우연히 깔리지만, 직접 의존이므로 명시).
+torch
