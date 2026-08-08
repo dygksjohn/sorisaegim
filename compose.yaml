@@ -1,0 +1,24 @@
+# 로컬 실행용 — docker compose up --build
+#
+# 볼륨 하나(sorisaegim-data)가 /app/data 를 받는다. DB(app.db)·업로드 녹음·
+# TTS 캐시가 여기 남아 컨테이너를 지워도 데이터가 유지된다.
+#
+# 미세조정 모델(w2v2-jamo)을 쓰려면 이 볼륨 안 models/ 에 넣거나,
+# 아래 bind mount 주석을 풀어 호스트 폴더를 물린다.
+
+services:
+  app:
+    build: .
+    image: sorisaegim:dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - sorisaegim-data:/app/data
+      # - ./data/models:/app/data/models:ro   # 호스트의 모델 폴더를 직접 물릴 때
+    environment:
+      # 모델 경로를 볼륨 밖으로 뺄 때만 덮어쓰면 된다
+      PHONE_MODEL_DIR: /app/data/models/w2v2-jamo
+    restart: unless-stopped
+
+volumes:
+  sorisaegim-data:

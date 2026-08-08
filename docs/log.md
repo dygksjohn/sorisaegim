@@ -3,6 +3,12 @@
 > 운영 원칙: 주당 3줄 — 한 것 / 막힌 것 / 다음. 회고 글 재료.
 > 8주차로 본 프로젝트 완료. 이하 **후속 +N주차**는 ML 고도화(이력서용 fine-tuning 경험) 확장 — 계획 `docs/후속계획_ML고도화_v1.md`.
 
+## 배포 7단계 (2026-08-08) — 컨테이너화 완료
+
+- 한 것: 이미지 빌드부터 마이크 실사용까지 통과. ① `Dockerfile` 2스테이지(builder에서 컴파일, 런타임엔 빌드툴 없음) + `.dockerignore`(`data/` 제외 — AI Hub 재배포 금지·DB는 볼륨) + `compose.yaml`(볼륨 `sorisaegim-data:/app/data`). ② 재현 결과: 이미지 5.04GB, 기동→API 응답 12.3초, `/sentences` 33문장 한글 정상, 정적 화면·통계 API 200, 브라우저 마이크 녹음→채점 정상. ③ 빌드 시점에 Whisper small·nltk cmudict를 굽고 g2pk 스모크 체크(`밥을`→`바블`)를 넣어, 첫 요청이 네트워크를 타거나 사전 미적재로 터지는 것을 막았다.
+- 막힌 것: ① 첫 빌드가 `RuntimeError: mecab-config not found`로 실패 — `python-mecab-ko`는 pybind11 확장을 시스템 mecab에 링크하므로 g++만으로 부족하다. builder에 `mecab`·`libmecab-dev`, 런타임에 `libmecab2`를 넣어 해결(한국어 사전은 pip의 `python-mecab-ko-dic`). Windows에서 `C:\mecab`이 필요했던 것과 같은 이유다. ② torch CPU 휠은 `requirements.txt`의 `--extra-index-url`만으로는 보장되지 않아, Dockerfile에서 `--index-url`로 먼저 설치해 확정했다. ③ Docker Desktop이 사용자 폴더(`%LOCALAPPDATA%\Programs\DockerDesktop`) 설치라 서비스가 없다 — 빌드 전에 앱을 먼저 띄워야 한다.
+- 다음: 8단계 AWS 배포. 그 전에 모델 웨이트 배치(handoff 3-1)가 남아 `engine=phone`은 여전히 503이다. 이미지 5.04GB의 절반이 venv(2.56GB)라 푸시 비용이 크므로, 배포 방식 결정 시 이미지 크기를 함께 본다. 감량 후보: `konlpy`+`JPype1`+`lxml` 제거(실사용 경로가 아님), numba/llvmlite 필요 여부, ffmpeg 최소 구성.
+
 ## 배포 7단계 시작 (2026-08-03 ~) — 저장소 최신화·의존성 고정·로컬 재현
 
 - **한 것**: 컨테이너화 전 재현 가능한 기준선 확보. ① **기준 상태 확정**: HEAD `b2be82a`(정합성 수정: setup_venv.cmd 복구·torch 명시·handoff 문서 추적), Python 3.13.7(→ 베이스 `python:3.13-slim`), 테스트 43개 통과. ② **의존성 2단 고정**: `requirements.txt` 직접 의존을 `==`로 핀(실측 버전) + torch는 CPU 휠 인덱스 지정(GPU 휠로 이미지 붇는 것 방지), `requirements.lock.txt` 전체 스냅샷 95개. dry-run resolve 충돌 0. ③ **응답시간 기준선**(`experiments/bench_local.py` → `results/bench_local.md`): Whisper 경로 **콜드 로딩+첫 추론 4.61s / 웜 추론 평균 1.74s·p50 1.74s·최대 1.81s**(CPU, 1주차 정발음 5건, 서버 미경유). 자모 비교 엔진은 무시할 수준.

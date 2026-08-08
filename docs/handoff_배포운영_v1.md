@@ -69,7 +69,12 @@ Colab 학습 산출물(`OUTPUT_DIR`)이 드라이브에 남아 있는지 먼저 
 권장은 세 번째다. `stt/phone.py`가 이미 `PHONE_MODEL_DIR` 환경변수로 경로를 덮어쓸 수 있어
 코드 변경이 거의 없고, AI Hub 원본과 달리 파인튜닝된 웨이트는 비공개 보관이면 재배포 제약에 걸리지 않는다.
 
-### 3-2. `requirements.txt`에 버전 핀이 하나도 없다
+### 3-2. `requirements.txt`에 버전 핀이 하나도 없다 (2026-08-08 해소)
+
+해소됨 — 커밋 `a5d5abc`에서 2단 고정 완료. 아래는 그때의 판단 근거로 남긴다.
+컨테이너 빌드에서 확인된 추가 사항: `requirements.txt`의 `--extra-index-url`만으로는
+CPU 휠이 보장되지 않는다. Dockerfile은 `--index-url`로 torch를 먼저 설치해 확정한다.
+
 
 과거에 venv 재생성 후 기능이 깨진 전례가 있다(수동 설치분 미기록).
 컨테이너는 매번 새 환경을 만드는 구조라 핀이 없으면 같은 문제가 반복된다.
@@ -90,7 +95,22 @@ torch==2.12.1
 
 GPU 휠이 잡히면 이미지가 몇 GB 불어나 이미지 용량·로딩 시간 측정이 무의미해진다.
 
-### 3-3. 네이티브 의존성의 리눅스 절차가 없다
+### 3-3. 네이티브 의존성의 리눅스 절차가 없다 (2026-08-08 해소)
+
+해소됨 — 리눅스에서 필요한 것이 실측으로 확정됐다.
+
+- 빌드: `build-essential` + `mecab` + `libmecab-dev`.
+  g++만으로는 `RuntimeError: mecab-config not found`로 죽는다.
+  `python-mecab-ko`가 pybind11 확장을 시스템 mecab에 링크하기 때문이다
+- 런타임: `libmecab2` + `ffmpeg`(오디오 디코딩) + `libgomp1`(torch)
+- 한국어 사전은 apt가 아니라 pip의 `python-mecab-ko-dic`이 들고 온다
+- JVM은 필요 없다. `konlpy`가 g2pk 의존성으로 깔리지만 `g2pk.py`는 `mecab`을 직접 import한다.
+  `default-jre`(약 180MB)를 넣지 않고 빌드·기동·발음형 변환이 모두 통과했다
+
+빌드 시점에 `G2p()('밥을') == '바블'` 스모크 체크를 둔다 — 사전이 안 물리는 실패는
+import가 아니라 첫 채점 요청에서 터져서 추적 비용이 크다.
+
+아래는 원래 기록이다.
 
 `g2pK`·`konlpy`는 JVM과 mecab 네이티브를 요구한다.
 현재 문서화된 절차는 Windows 전용이다 — MSVC C++ 워크로드 + `C:\mecab`의 mecab-ko-msvc +
