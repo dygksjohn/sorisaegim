@@ -1,0 +1,29 @@
+# 리버스 프록시 + 자동 HTTPS
+#
+# 인증서는 HTTP-01 챌린지로 받는다 — 80·443이 열려 있고 도메인 A레코드가
+# 이 인스턴스를 가리키면 그것으로 끝이다. DNS 플러그인이 필요 없어
+# 공식 caddy:2 이미지를 그대로 쓴다.
+
+{
+	email {$TLS_EMAIL}
+}
+
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# 녹음 업로드 상한. 15초 webm이 보통 100KB 안쪽이라 넉넉하다.
+	request_body {
+		max_size 25MB
+	}
+
+	# STT가 CPU 추론이라 응답이 수 초~수십 초 걸린다.
+	# Caddy는 기본적으로 프록시 응답을 기다리므로 별도 타임아웃을 두지 않는다.
+	reverse_proxy app:8000
+
+	log {
+		output file /data/access.log {
+			roll_size 10MB
+			roll_keep 5
+		}
+	}
+}

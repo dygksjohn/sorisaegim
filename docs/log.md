@@ -3,6 +3,12 @@
 > 운영 원칙: 주당 3줄 — 한 것 / 막힌 것 / 다음. 회고 글 재료.
 > 8주차로 본 프로젝트 완료. 이하 **후속 +N주차**는 ML 고도화(이력서용 fine-tuning 경험) 확장 — 계획 `docs/후속계획_ML고도화_v1.md`.
 
+## 배포 8단계 준비 (2026-08-09) — 방식 결정 + 준비물 작성
+
+- 한 것: ① 배포 방식을 EC2 단일 인스턴스로 결정. App Runner는 볼륨을 못 붙여 SQLite·녹음이 재배포마다 유실되고, Fargate는 EFS(NFS) 위 SQLite의 파일 락 위험 + 로드밸런서 고정비가 붙는다. EC2는 로컬에서 검증한 볼륨 구성을 그대로 옮길 수 있다. ② 준비물 작성: `deploy/compose.prod.yaml`(앱 + Caddy 2컨테이너, 앱 포트 비공개) · `deploy/Caddyfile`(HTTP-01 자동 인증서) · `deploy/user-data.sh`(도커·컴포즈·AWS CLI 설치 자동화) · `deploy/.env.example`. ③ 절차·근거 문서 `docs/배포_AWS_v1.md` — 결정마다 버린 선택지와 되돌릴 조건을 함께 기록.
+- 결정 요지: t3.medium(2GiB는 OOM 위험 → 측정값 오염), 서울 리전(국제 구간 지연이 측정에 섞이지 않게), Ubuntu 24.04(컨테이너 베이스와 같은 Debian 계열), Caddy 리버스 프록시(앱 코드 무수정 + 인증서 자동), `restart: unless-stopped`(systemd 유닛 불필요), IAM 인스턴스 역할(서버에 액세스 키를 두지 않음), 탄력적 IP(IP 변경 시 DNS·인증서 동시 파손 방지).
+- 다음: 08-15 실행 — ECR 푸시(5GB, 30분+이므로 당일 맨 앞) → IAM·인스턴스·DNS → 기동·검증. 도메인은 `SITE_ADDRESS` 한 줄로 분리해 당일 결정 가능. 모델 웨이트 미배치라 `engine=phone`은 배포 후에도 503.
+
 ## 배포 7단계 (2026-08-08) — 컨테이너화 완료
 
 - 한 것: 이미지 빌드부터 마이크 실사용까지 통과. ① `Dockerfile` 2스테이지(builder에서 컴파일, 런타임엔 빌드툴 없음) + `.dockerignore`(`data/` 제외 — AI Hub 재배포 금지·DB는 볼륨) + `compose.yaml`(볼륨 `sorisaegim-data:/app/data`). ② 재현 결과: 이미지 5.04GB, 기동→API 응답 12.3초, `/sentences` 33문장 한글 정상, 정적 화면·통계 API 200, 브라우저 마이크 녹음→채점 정상. ③ 빌드 시점에 Whisper small·nltk cmudict를 굽고 g2pk 스모크 체크(`밥을`→`바블`)를 넣어, 첫 요청이 네트워크를 타거나 사전 미적재로 터지는 것을 막았다.

@@ -1,0 +1,49 @@
+# 운영용 구성 — EC2에서 실행한다. 로컬 개발은 루트의 compose.yaml.
+#
+# 로컬과 다른 점 세 가지
+#  1) 이미지를 빌드하지 않고 ECR에서 받는다 (인스턴스 역할로 인증, 키 없음)
+#  2) 앱은 포트를 밖으로 열지 않는다. Caddy만 80·443을 잡고 내부망으로 넘긴다
+#  3) Caddy가 인증서를 자동 발급·갱신한다 (마이크는 HTTPS에서만 동작)
+#
+# 실행:
+#   cd sorisaegim/deploy
+#   cp .env.example .env   (편집: APP_IMAGE · SITE_ADDRESS · TLS_EMAIL)
+#   docker compose -f compose.prod.yaml up -d
+
+services:
+  app:
+    image: ${APP_IMAGE}
+    restart: unless-stopped
+    expose:
+      - "8000"          # 내부망에만 노출. 호스트 포트로 게시하지 않는다
+    volumes:
+      - sorisaegim-data:/app/data
+    environment:
+      PHONE_MODEL_DIR: /app/data/models/w2v2-jamo
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/sentences', timeout=4)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 40s
+      retries: 3
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data      # 발급받은 인증서 — 지우면 재발급 한도에 걸릴 수 있다
+      - caddy-config:/config
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS}
+      TLS_EMAIL: ${TLS_EMAIL}
+    depends_on:
+      - app
+
+volumes:
+  sorisaegim-data:
+  caddy-data:
+  caddy-config:
